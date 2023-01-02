@@ -1,14 +1,18 @@
 import express from "express"
 import { ConnectOptions, Error, connect } from "mongoose";
 import { dbConnection } from "./database";
+import { IRoute } from "./interface";
+import bodyParser from "body-parser"
 
 class App {
     public app: express.Application;
     public port: number;
-    constructor() {
-        this.port = 8080;
-        this.databaseConnection()
+    constructor(routes: IRoute[]) {
+        this.databaseConnection();
         this.app = express();
+        this.initializeMiddleware();
+        this.initializeRoutes(routes);
+        this.port = 8080;
     }
 
     listen() {
@@ -17,15 +21,22 @@ class App {
         })
     }
 
-    async databaseConnection(){
-        try{
-           await connect(dbConnection.uri as string, dbConnection.options as ConnectOptions)
-           console.log("database connected successfully")
-        }catch(err:unknown){
-            if(err instanceof Error) console.log(err.message)
+    async databaseConnection() {
+        try {
+            await connect(dbConnection.uri as string, dbConnection.options as ConnectOptions)
+            console.log("database connected successfully")
+        } catch (err: unknown) {
+            if (err instanceof Error) console.log(err.message)
         }
     }
+    initializeMiddleware() {
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: true }));
+    }
 
+    initializeRoutes(routes: IRoute[]) {
+        routes.forEach(route => this.app.use("/api/v1", route.route))
+    }
 }
 
 export default App;

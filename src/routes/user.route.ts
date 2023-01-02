@@ -7,6 +7,7 @@ class UserRoute implements IRoute{
     public path =  "/user";
     public route = Router();
     private controller = new UserController();
+    
 
     constructor(){
         this.initializeRoutes()
@@ -14,7 +15,7 @@ class UserRoute implements IRoute{
 
     private initializeRoutes(){
         this.route.post(`${this.path}/create`,this.controller.createAccount)
-        this.route.get(`${this.path}/create`,this.controller.getAllAccount)
+        this.route.get(`${this.path}`,this.controller.getAllAccount)
     }
 }
 

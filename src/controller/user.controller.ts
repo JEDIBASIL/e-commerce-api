@@ -1,21 +1,28 @@
-import { IRoute, NextFunction, Request, Response, Router } from "express";
-import { IUser } from "../interface";
+import { NextFunction, Request, Response, Router } from "express";
 import UserService from "../service/user.service";
 import HttpResponse from "../response/HttpResponse";
-import { IRouterHandler } from "express-serve-static-core";
+import HttpException from "../exceptions/HttpException";
+import CreateAccountDto from "../dto/user.dto";
 
 class UserController {
 
     private service = new UserService();
-    async createAccount(req: Request, res: Response, next: NextFunction) {
-        const data: IUser = req.body;
-        const newAccount = await this.service.createAccount(data);
-        if (!newAccount) return res.status(500).send(new HttpResponse("failed", "an error occurred"))
-        return res.status(200).send(new HttpResponse("success", "account created successfully"))
+
+    createAccount = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const data: CreateAccountDto = req.body;
+            if (data === undefined) throw new HttpException(400, "all fields are required")
+            const newAccount = await this.service.createAccount(data);
+            if (!newAccount) return res.status(500).send(new HttpResponse("failed", "an error occurred"))
+            return res.status(200).send(new HttpResponse("success", "account created successfully"))
+        } catch (err: unknown) {
+            if (err instanceof Error) next(err)
+        }
     }
 
-    async getAllAccount(req: Request, res: Response, next: NextFunction) {
-        return res.status(200).send({ data: this.service.getAllAccount() })
+    getAllAccount = async (req: Request, res: Response, next: NextFunction) => {
+        const data = await this.service.getAllAccount();
+        return res.status(200).send(new HttpResponse("success", "fetched all the users", data))
     }
 }
 
