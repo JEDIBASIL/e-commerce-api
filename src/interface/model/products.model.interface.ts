@@ -6,6 +6,7 @@ interface IProduct{
     rating:number;
     numReviews:number;
     addedAt:Date;
+    qty:number;
 }
 
 export default IProduct
