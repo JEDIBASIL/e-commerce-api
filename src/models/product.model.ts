@@ -33,5 +33,9 @@ const productSchema = new Schema<IProduct>({
     },
     addedAt: {
         type: Date,
+        default: () => moment().toDate()
     },
 })
+
+const productModel = model<Document & IProduct>("Product", productSchema);
+export default productModel;

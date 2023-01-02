@@ -74,3 +74,6 @@ const orderSchema = new Schema<IOrder>({
         default: () => moment().toDate()
     },
 })
+
+const orderModel = model<Document & IOrder>("Order",orderSchema)
+export default orderModel

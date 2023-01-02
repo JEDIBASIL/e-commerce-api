@@ -1,8 +1,12 @@
 import moment from 'moment';
-import { model, Schema, Document } from 'mongoose';
+import { model, Schema, Document, Types } from 'mongoose';
 import { IReview } from '../interface';
 
 const reviewSchema = new Schema<IReview>({
+    product:{
+        type:Schema.Types.ObjectId,
+        required:true,
+    },
     name: {
         type: String,
         required: true,
@@ -20,3 +24,7 @@ const reviewSchema = new Schema<IReview>({
         default: () => moment().toDate(),
     },
 })
+
+const reviewModel = model<Document & IReview>("Review", reviewSchema);
+
+export default reviewModel

@@ -1,5 +1,3 @@
-import { BlobOptions } from "buffer";
-
 interface IUser {
     username: string;
     email: string;
