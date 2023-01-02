@@ -1,6 +1,8 @@
-import { model, Schema, Document } from 'mongoose';
+import { model, Schema, Document, CallbackWithoutResultAndOptionalError } from 'mongoose';
 import moment from 'moment';
 import { IUser } from '../interface';
+import bcrypt from "bcrypt"
+
 const userSchema: Schema = new Schema<IUser>({
   email: {
     type: String,
@@ -24,12 +26,10 @@ const userSchema: Schema = new Schema<IUser>({
   },
   isVerified: {
     type: Boolean,
-    required: true,
     default: false,
   },
   status: {
     type: Boolean,
-    required: true,
     default: false,
   },
   joinedAt: {
@@ -39,5 +39,13 @@ const userSchema: Schema = new Schema<IUser>({
 
 });
 
-const userModel = model<Document>('User', userSchema);
+userSchema.pre('save', async function(next:CallbackWithoutResultAndOptionalError) {
+  if(!this.isModified("password")) next();
+  const salt = await bcrypt.genSalt(10);
+  this.password = bcrypt.hash(this.password, salt);
+})
+
+
+
+const userModel = model<Document & IUser>('User', userSchema);
 export default userModel;
