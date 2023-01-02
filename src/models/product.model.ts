@@ -17,18 +17,20 @@ const productSchema = new Schema<IProduct>({
         type: String,
         required: true
     },
+    qty:{
+        type:Number,
+        required:true
+    },
     description: {
         type: String,
         required: true
     },
     rating: {
         type: Number,
-        required: true,
         default: 0
     },
     numReviews: {
         type: Number,
-        required: true,
         default: 0
     },
     addedAt: {
