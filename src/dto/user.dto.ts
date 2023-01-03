@@ -4,4 +4,5 @@ class CreateAccountDto{
     public password!:string;
 }
 
+
 export default CreateAccountDto
