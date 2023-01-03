@@ -1,7 +1,9 @@
+import { Schema } from "mongoose";
+
 interface IProduct{
     name:string;
     image:string;
-    category:string;
+    category:Schema.Types.ObjectId;
     description:string;
     rating:number;
     numReviews:number;

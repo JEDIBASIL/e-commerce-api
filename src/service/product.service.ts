@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 import { AddProductDto, GetProductDto, DeleteProductDto, UpdateProductDto, CreateCategoryDto } from "../dto/product.dto";
 import HttpException from "../exceptions/HttpException";
 import { ICategory, IProduct, IProductService } from "../interface";
@@ -43,7 +44,7 @@ class ProductService implements IProductService {
         updatedProduct.qty = product.qty;
         updatedProduct.description = product.description;
         updatedProduct.name = product.name;
-        updatedProduct.category = product.category;
+        updatedProduct.category = product.category as unknown as ObjectId;
         await updatedProduct.save()
         return true;
     }

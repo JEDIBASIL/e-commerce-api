@@ -14,8 +14,8 @@ const productSchema = new Schema<IProduct>({
         required: true
     },
     category: {
-        type: String,
-        required: true
+        type:Schema.Types.ObjectId,
+        required:true,
     },
     qty:{
         type:Number,
