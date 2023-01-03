@@ -1,10 +1,21 @@
-import { AddProductDto, GetProductDto, DeleteProductDto, UpdateProductDto } from "../dto/product.dto";
+import { AddProductDto, GetProductDto, DeleteProductDto, UpdateProductDto, CreateCategoryDto } from "../dto/product.dto";
 import HttpException from "../exceptions/HttpException";
-import { IProduct, IProductService } from "../interface";
+import { ICategory, IProduct, IProductService } from "../interface";
+import categoryModel from "../models/category.model";
 import productModel from "../models/product.model";
 
 class ProductService implements IProductService {
+
     private model = productModel
+    private categoryM = categoryModel
+    async addCategory(newCategory: CreateCategoryDto): Promise<ICategory> {
+        const category = await this.categoryM.create({ ...newCategory })
+        return category
+    }
+    async getCategories(): Promise<ICategory[]> {
+        const category = await this.categoryM.find()
+        return category
+    }
     async addProduct(newProduct: AddProductDto): Promise<IProduct> {
         const addedProduct = await this.model.create({ ...newProduct })
         return addedProduct
@@ -18,7 +29,6 @@ class ProductService implements IProductService {
         if (!product) throw new HttpException(404, "product not found")
         return product;
     }
-
     async deleteProduct(productId: DeleteProductDto): Promise<boolean> {
         const { id } = productId
         const deletedProduct = await this.model.findByIdAndDelete(id)
@@ -37,7 +47,6 @@ class ProductService implements IProductService {
         await updatedProduct.save()
         return true;
     }
-
 }
 
 export default ProductService
