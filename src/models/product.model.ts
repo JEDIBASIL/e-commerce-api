@@ -16,6 +16,7 @@ const productSchema = new Schema<IProduct>({
     category: {
         type:Schema.Types.ObjectId,
         required:true,
+        ref: "Category"
     },
     qty:{
         type:Number,
