@@ -7,6 +7,7 @@ interface IProduct{
     numReviews:number;
     addedAt:Date;
     qty:number;
+    price:number;
 }
 
 export default IProduct

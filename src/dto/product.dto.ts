@@ -1,29 +1,26 @@
-class AddProduct {
+class AddProductDto {
     name!: string;
     image!: string;
     description!: string;
 }
 
-class DeleteProduct {
+class DeleteProductDto {
     id!: string;
+}
+
+
+
+class GetProductDto {
+    id!: string;
+}
+
+class UpdateProductDto {
     name!: string;
     image!: string;
     description!: string;
+    qty!: number;
+    category!: string;
+    price!: number;
 }
 
-
-
-class GetProduct {
-    id!: string;
-}
-
-class UpdateProduct { 
-    id!: string;
-    name!: string;
-    image!: string;
-    description!: string;
-    qty!:number;
-    category!:string;
-}
-
-export { AddProduct, DeleteProduct, GetProduct, UpdateProduct }
+export { AddProductDto, DeleteProductDto, GetProductDto, UpdateProductDto }

@@ -1,4 +1,4 @@
-import { AddProduct, DeleteProduct, GetProduct, UpdateProduct } from "../../dto/product.dto";
+import { AddProductDto, DeleteProductDto, GetProductDto, UpdateProductDto } from "../../dto/product.dto";
 import IProduct from "../model/products.model.interface";
 
 
@@ -9,11 +9,11 @@ import IProduct from "../model/products.model.interface";
 // add product
 
 interface IProductService {
-    addProduct(newProduct: AddProduct): Promise<IProduct>;
+    addProduct(newProduct: AddProductDto): Promise<IProduct>;
     getAllProducts(): Promise<IProduct[]>;
-    getProduct(id: GetProduct): Promise<AddProduct>;
-    deleteProduct(id: DeleteProduct): Promise<Boolean>;
-    updateProduct(product: UpdateProduct): Promise<Boolean>;
+    getProduct(id: GetProductDto): Promise<AddProductDto>;
+    deleteProduct(id: DeleteProductDto): Promise<Boolean>;
+    updateProduct(product: UpdateProductDto,id:string): Promise<Boolean>;
 }
 
 export default IProductService
