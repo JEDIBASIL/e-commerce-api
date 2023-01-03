@@ -5,4 +5,5 @@ import IReview from "./model/review.model.interface"
 import IUserService from "./service/user.service.interface"
 import IRoute from "./routes/route.interface"
 import IProductService from "./service/product.service.interface"
-export { IUser, IOrder, IProduct, IReview, IUserService, IRoute, IProductService }
+import ICategory from "./model/category.model.interface"
+export { IUser, IOrder, IProduct, IReview, IUserService, IRoute, IProductService, ICategory }
