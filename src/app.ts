@@ -2,7 +2,6 @@ import express from "express"
 import { ConnectOptions, Error, connect } from "mongoose";
 import { dbConnection } from "./database";
 import { IRoute } from "./interface";
-import bodyParser from "body-parser"
 
 class App {
     public app: express.Application;

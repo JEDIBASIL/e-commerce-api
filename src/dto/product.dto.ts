@@ -12,15 +12,18 @@ class DeleteProduct {
 }
 
 
+
 class GetProduct {
     id!: string;
 }
 
-class UpdateProduct {
+class UpdateProduct { 
     id!: string;
     name!: string;
     image!: string;
     description!: string;
+    qty!:number;
+    category!:string;
 }
 
 export { AddProduct, DeleteProduct, GetProduct, UpdateProduct }

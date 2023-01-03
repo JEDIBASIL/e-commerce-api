@@ -3,7 +3,7 @@ import IUser from "../model/user.model.interface";
 
 interface IUserService{
     getAllAccount():Promise<IUser[]>;
-    createAccount: (newUser:CreateAccountDto) => Promise<CreateAccountDto>;
+    createAccount(newUser:CreateAccountDto): Promise<CreateAccountDto>;
     loginAccount():Promise<IUser>
 }
 
