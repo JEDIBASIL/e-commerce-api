@@ -23,4 +23,9 @@ class UpdateProductDto {
     price!: number;
 }
 
-export { AddProductDto, DeleteProductDto, GetProductDto, UpdateProductDto }
+class CreateCategoryDto {
+    name!: string;
+}
+
+
+export { AddProductDto, DeleteProductDto, GetProductDto, UpdateProductDto, CreateCategoryDto }
