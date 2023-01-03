@@ -22,11 +22,11 @@ class ProductService implements IProductService {
         return addedProduct
     };
     async getAllProducts(): Promise<IProduct[]> {
-        return await this.model.find()
+        return await this.model.find().populate(["category"])
     }
     async getProduct(productId: GetProductDto): Promise<AddProductDto> {
         const { id } = productId
-        const product = await this.model.findById(id)
+        const product = await this.model.findById(id).populate(["category"])
         if (!product) throw new HttpException(404, "product not found")
         return product;
     }
