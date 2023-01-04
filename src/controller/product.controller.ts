@@ -33,6 +33,15 @@ class ProductController {
             if (err instanceof Error) next(err)
         }
     }
+    getProductByCategory = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const name = req.params.name
+            const filteredProductByCategory = await this.service.getProductByCategory(name)
+            return res.status(200).send(new HttpResponse("success", `fetched product by ${name} category `, filteredProductByCategory))
+        } catch (err: unknown) {
+            if (err instanceof Error) next(err)
+        }
+    }
     updateProduct = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const data: UpdateProductDto = req.body

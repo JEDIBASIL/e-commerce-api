@@ -10,15 +10,17 @@ import IProduct from "../model/products.model.interface";
 // add product
 // add category
 // get categories
+// get product by category
 
 interface IProductService {
     addProduct(newProduct: AddProductDto): Promise<IProduct>;
     getAllProducts(): Promise<IProduct[]>;
-    getProduct(id: GetProductDto): Promise<AddProductDto>;
+    getProduct(id: GetProductDto): Promise<IProduct>;
     deleteProduct(id: DeleteProductDto): Promise<Boolean>;
     updateProduct(product: UpdateProductDto, id: string): Promise<Boolean>;
     addCategory(category: CreateCategoryDto): Promise<ICategory>;
     getCategories(): Promise<ICategory[]>;
+    getProductByCategory(categoryName: string): Promise<IProduct[]>
 }
 
 export default IProductService

@@ -2,6 +2,9 @@ class AddProductDto {
     name!: string;
     image!: string;
     description!: string;
+    qty!: number;
+    category!: string;
+    price!: number;
 }
 
 class DeleteProductDto {
