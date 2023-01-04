@@ -6,7 +6,6 @@ import CreateAccountDto from "../dto/user.dto";
 import Mail from "../utils/mail";
 import MailOptions from "../utils/mailOptions";
 import { templateReader } from "../utils/templateReader";
-// import ok from "../upload"
 class UserController {
 
     private service = new UserService();
