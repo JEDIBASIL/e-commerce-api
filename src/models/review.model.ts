@@ -7,10 +7,6 @@ const reviewSchema = new Schema<IReview>({
         type:Schema.Types.ObjectId,
         required:true,
     },
-    name: {
-        type: String,
-        required: true,
-    },
     rating: {
         type: Number,
         required: true,
