@@ -45,7 +45,7 @@ userSchema.pre('save', async function (next: CallbackWithoutResultAndOptionalErr
   this.password = await bcrypt.hash(this.password, salt);
 })
 
-userSchema.methods.isPasswordMatch = async function (password: string): Promise<boolean> {
+userSchema.methods.isPasswordMatch = async function(password:string):Promise<boolean>{
   return await bcrypt.compare(password, this.password)
 }
 

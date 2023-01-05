@@ -6,7 +6,8 @@ interface IUser {
     password: string;
     isVerified: boolean;
     status: boolean;
-    joinedAt: Date
+    joinedAt: Date;
+    isPasswordMatch:(password:string) => boolean 
 }
 
 export default IUser
