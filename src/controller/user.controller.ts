@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import UserService from "../service/user.service";
 import HttpResponse from "../response/HttpResponse";
 import HttpException from "../exceptions/HttpException";
-import { CreateAccountDto } from "../dto/user.dto";
+import { CreateAccountDto, LoginDto } from "../dto/user.dto";
 import Mail from "../utils/mail";
 import MailOptions from "../utils/mailOptions";
 import { templateReader } from "../utils/templateReader";
@@ -18,7 +18,7 @@ class UserController {
             const data: CreateAccountDto = req.body;
             const { email, username } = data
             if (data === undefined) throw new HttpException(400, "all fields are required")
-            const verificationToken = await this.jwt.signJwt(email);
+            const verificationToken = await this.jwt.signJwt(email, "600s");
             const emailTemplate = await templateReader(`verifyMail.hbs`, { username, link: verificationToken })
             const newAccount = await this.service.createAccount(data);
             if (!newAccount) return res.status(500).send(new HttpResponse("failed", "an error occurred"))
@@ -36,6 +36,19 @@ class UserController {
             const isVerifiedAccount = await this.service.verify(verifiedToken.value)
             if (isVerifiedAccount)
                 return res.status(200).send(new HttpResponse("success", "account verified successfully"))
+        } catch (err: unknown) {
+            if (err instanceof Error) next(err)
+        }
+    }
+    login = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { usernameOrEmail, password }: LoginDto = req.body
+            const user = await this.service.loginAccount({ password, usernameOrEmail })
+            if (user) {
+                const accessToken = await this.jwt.signJwt(user.username, "600s")
+                const refreshToken = await this.jwt.signJwt(user.email, "30d")
+                return res.status(200).send(new HttpResponse("success", "account authenticated", { accessToken, refreshToken }))
+            }
         } catch (err: unknown) {
             if (err instanceof Error) next(err)
         }

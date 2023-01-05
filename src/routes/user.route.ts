@@ -16,6 +16,7 @@ class UserRoute implements IRoute{
     private initializeRoutes(){
         this.route.post(`${this.path}/create`,this.controller.createAccount)
         this.route.post(`${this.path}/verify`,this.controller.verify)
+        this.route.post(`${this.path}/login`,this.controller.login)
         this.route.get(`${this.path}`,this.controller.getAllAccount)
     }
 }
