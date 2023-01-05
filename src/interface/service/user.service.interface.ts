@@ -1,4 +1,4 @@
-import CreateAccountDto from "../../dto/user.dto";
+import {CreateAccountDto} from "../../dto/user.dto";
 import IUser from "../model/user.model.interface";
 
 // get all user

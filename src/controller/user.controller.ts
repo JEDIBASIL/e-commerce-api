@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import UserService from "../service/user.service";
 import HttpResponse from "../response/HttpResponse";
 import HttpException from "../exceptions/HttpException";
-import CreateAccountDto from "../dto/user.dto";
+import { CreateAccountDto } from "../dto/user.dto";
 import Mail from "../utils/mail";
 import MailOptions from "../utils/mailOptions";
 import { templateReader } from "../utils/templateReader";
@@ -32,10 +32,10 @@ class UserController {
         try {
             const { token } = req.body
             if (!token) throw new HttpException(400, "token is required")
-            const verifiedToken:JwtPayload | string = await this.jwt.verifyJwt(token)
+            const verifiedToken: JwtPayload | string = await this.jwt.verifyJwt(token)
             const isVerifiedAccount = await this.service.verify(verifiedToken.value)
-            if (isVerifiedAccount) 
-            return res.status(200).send(new HttpResponse("success", "account verified successfully"))
+            if (isVerifiedAccount)
+                return res.status(200).send(new HttpResponse("success", "account verified successfully"))
         } catch (err: unknown) {
             if (err instanceof Error) next(err)
         }
