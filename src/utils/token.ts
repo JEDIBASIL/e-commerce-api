@@ -3,10 +3,10 @@ import { ACCESS_TOKEN } from "../config"
 
 class JwtToken {
     async signJwt(value: string) {
-        jwt.sign(value, ACCESS_TOKEN as unknown as string, { expiresIn: "10m" });
+        return jwt.sign({value}, ACCESS_TOKEN as unknown as string, { expiresIn: 60*10+"s" });
     }
     async verifyJwt(value: string) {
-        jwt.verify(value, ACCESS_TOKEN as unknown as string)
+        return jwt.verify(value, ACCESS_TOKEN as unknown as string)
     }
 }
 
