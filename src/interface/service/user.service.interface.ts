@@ -7,11 +7,11 @@ import IUser from "../model/user.model.interface";
 // verify
 // change password
 // update info
-interface IUserService{
-    getAllAccount():Promise<IUser[]>;
-    createAccount(newUser:CreateAccountDto): Promise<CreateAccountDto>;
-    loginAccount():Promise<IUser>
-    verify(value:string):Promise<Boolean>
+interface IUserService {
+    getAllAccount(): Promise<IUser[]>;
+    createAccount(newUser: CreateAccountDto): Promise<CreateAccountDto>;
+    loginAccount(): Promise<IUser>
+    verify(value: string): Promise<Boolean>
 }
 
 export default IUserService;
