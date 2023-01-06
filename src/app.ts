@@ -2,6 +2,7 @@ import express from "express"
 import { ConnectOptions, Error, connect } from "mongoose";
 import { dbConnection } from "./database";
 import { IRoute } from "./interface";
+import logger from "./utils/logger";
 
 class App {
     public app: express.Application;
@@ -16,14 +17,22 @@ class App {
 
     listen() {
         this.app.listen(this.port, () => {
-            console.log(`app listening on port ${this.port}`)
+            logger.info("▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎")
+            logger.info(`▼                                   ▼`)
+            logger.info(`▼ 🚀 listening on port ${this.port}         ▼`)
+            logger.info(`▼                                   ▼`)
+            logger.info("▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎")
         })
     }
 
     async databaseConnection() {
         try {
             await connect(dbConnection.uri as string, dbConnection.options as ConnectOptions)
-            console.log("database connected successfully")
+            logger.info("▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎")
+            logger.info(`▼                                   ▼`)
+            logger.info(`▼ 🛢  database connected             ▼`)
+            logger.info(`▼                                   ▼`)
+            logger.info("▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎")
         } catch (err: unknown) {
             if (err instanceof Error) console.log(err.message)
         }
