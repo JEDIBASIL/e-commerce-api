@@ -1,4 +1,5 @@
-import { AddProductDto, DeleteProductDto, GetProductDto, UpdateProductDto, CreateCategoryDto } from "../../dto/product.dto";
+import { AddProductDto, DeleteProductDto, GetProductDto, UpdateProductDto, CreateCategoryDto, CartDto } from "../../dto/product.dto";
+import ICart from "../model/cart.model.interface";
 import ICategory from "../model/category.model.interface";
 import IProduct from "../model/products.model.interface";
 
@@ -11,6 +12,10 @@ import IProduct from "../model/products.model.interface";
 // add category
 // get categories
 // get product by category
+// get all products in cart
+// add to cart
+// increase  cart item qty
+// decrease  cart item qty
 
 interface IProductService {
     addProduct(newProduct: AddProductDto): Promise<IProduct>;
@@ -21,6 +26,7 @@ interface IProductService {
     addCategory(category: CreateCategoryDto): Promise<ICategory>;
     getCategories(): Promise<ICategory[]>;
     getProductByCategory(categoryName: string): Promise<IProduct[]>
+    addToCart(id:CartDto): Promise<ICart>
 }
 
 export default IProductService

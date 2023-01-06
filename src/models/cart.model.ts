@@ -23,3 +23,4 @@ const cartSchema = new Schema<ICart>({
 })
 
 const cartModel = model<Document & ICart>("Cart", cartSchema)
+export default cartModel

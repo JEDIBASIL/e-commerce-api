@@ -31,7 +31,8 @@ class CreateCategoryDto {
 }
 
 class CartDto {
-    id: string;
+    productId!: string;
+    accountId!: string;
 }
 
 
