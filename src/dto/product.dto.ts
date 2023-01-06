@@ -30,10 +30,14 @@ class CreateCategoryDto {
     name!: string;
 }
 
-class CartDto {
+class AddToCartDto {
     productId!: string;
     accountId!: string;
 }
 
+class GetCartProductDto{
+    accountId!:string;
+}
 
-export { AddProductDto, DeleteProductDto, GetProductDto, UpdateProductDto, CreateCategoryDto, CartDto }
+
+export { AddProductDto, DeleteProductDto, GetProductDto, UpdateProductDto, CreateCategoryDto, AddToCartDto as CartDto, GetCartProductDto }
