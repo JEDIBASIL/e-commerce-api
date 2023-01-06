@@ -2,17 +2,24 @@ import { NextFunction, Request, Response } from "express";
 import UserService from "../service/user.service";
 import HttpResponse from "../response/HttpResponse";
 import HttpException from "../exceptions/HttpException";
-import { CreateAccountDto, LoginDto } from "../dto/user.dto";
+import { CreateAccountDto, LoginDto, UpdateInfoDto } from "../dto/user.dto";
 import Mail from "../utils/mail";
 import MailOptions from "../utils/mailOptions";
 import { templateReader } from "../utils/templateReader";
 import JwtToken from "../utils/token";
 import { JwtPayload } from "jsonwebtoken";
+import { IUser } from "../interface";
+import { Document } from "mongoose";
 class UserController {
 
     private service = new UserService();
     private mail = new Mail();
     private jwt = new JwtToken();
+
+    getAllAccount = async (req: Request, res: Response, next: NextFunction) => {
+        const data = await this.service.getAllAccount();
+        return res.status(200).send(new HttpResponse("success", "fetched all the users", data))
+    }
     createAccount = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const data: CreateAccountDto = req.body;
@@ -32,7 +39,7 @@ class UserController {
         try {
             const { token } = req.body
             if (!token) throw new HttpException(400, "token is required")
-            const verifiedToken: JwtPayload | string = await this.jwt.verifyJwt(token)
+            const verifiedToken: JwtPayload | string = this.jwt.verifyJwt(token)
             const isVerifiedAccount = await this.service.verify(verifiedToken.value)
             if (isVerifiedAccount)
                 return res.status(200).send(new HttpResponse("success", "account verified successfully"))
@@ -53,9 +60,16 @@ class UserController {
             if (err instanceof Error) next(err)
         }
     }
-    getAllAccount = async (req: Request, res: Response, next: NextFunction) => {
-        const data = await this.service.getAllAccount();
-        return res.status(200).send(new HttpResponse("success", "fetched all the users", data))
+    updateInfo = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const user: IUser & Document = req["user"]
+            const data: UpdateInfoDto = req.body
+            const updatedInfo = await this.service.updateInfo(user._id, data)
+            if (!updatedInfo) throw new HttpException(500, "an error occurred")
+            return res.status(200).send(new HttpResponse("success", "account info update"))
+        } catch (err: unknown) {
+            if (err instanceof Error) next(err)
+        }
     }
 }
 

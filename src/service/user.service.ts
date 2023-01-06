@@ -1,4 +1,4 @@
-import { CreateAccountDto, LoginDto } from "../dto/user.dto";
+import { CreateAccountDto, LoginDto, UpdateInfoDto } from "../dto/user.dto";
 import HttpException from "../exceptions/HttpException";
 import { IUser, IUserService } from "../interface";
 import userModel from "../models/user.model";
@@ -7,15 +7,6 @@ class UserService implements IUserService {
 
     private model = userModel;
 
-    async loginAccount(credentials: LoginDto): Promise<IUser> {
-        const { password, usernameOrEmail } = credentials
-        const findByUsernameOrEmail = await this.model.findOne({ $or: [{ "username": usernameOrEmail }, { "email": usernameOrEmail }] }).select("+password")
-        if (!findByUsernameOrEmail) throw new HttpException(404, "incorrect username or email, and password")
-        const isCorrectPassword = await findByUsernameOrEmail.isPasswordMatch(password) 
-        if(!isCorrectPassword)  throw new HttpException(404, "incorrect username or email, and password")
-        if(!findByUsernameOrEmail.isVerified) throw new  HttpException(403, "account is not verified")
-        return findByUsernameOrEmail;
-    }
     async getAllAccount(): Promise<IUser[]> {
         const users = await this.model.find()
         return users
@@ -35,6 +26,24 @@ class UserService implements IUserService {
         account.isVerified = true;
         account.save();
         return true;
+    }
+
+    async loginAccount(credentials: LoginDto): Promise<IUser> {
+        const { password, usernameOrEmail } = credentials
+        const findByUsernameOrEmail = await this.model.findOne({ $or: [{ "username": usernameOrEmail }, { "email": usernameOrEmail }] }).select("+password")
+        if (!findByUsernameOrEmail) throw new HttpException(404, "incorrect username or email, and password")
+        const isCorrectPassword = await findByUsernameOrEmail.isPasswordMatch(password)
+        if (!isCorrectPassword) throw new HttpException(404, "incorrect username or email, and password")
+        if (!findByUsernameOrEmail.isVerified) throw new HttpException(403, "account is not verified")
+        return findByUsernameOrEmail;
+    }
+    async updateInfo(id: string, userInfo: UpdateInfoDto): Promise<IUser> {
+        const { firstName, lastName } = userInfo
+        const updateAccount = await this.model.findOne({ _id: id })
+        updateAccount!.firstName = firstName
+        updateAccount!.lastName = lastName
+        await updateAccount?.save()
+        return updateAccount as IUser;
     }
 }
 

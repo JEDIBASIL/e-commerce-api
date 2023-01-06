@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import JwtToken from '../utils/token';
 import HttpException from '../exceptions/HttpException';
+import logger from '../utils/logger';
 class BaseAuth {
     protected token: string;
     protected value: string;
     private jwt = new JwtToken()
     constructor(req: Request, res: Response) {
-        this.token = req.headers.authorization?.split(' ')[0] as string
+        this.token = req.headers.authorization?.split(' ')[1] as string
         this.value = this.jwt.verifyJwt(this.token)["value"]
     }
     static async check(req: Request, res: Response, next: NextFunction) {

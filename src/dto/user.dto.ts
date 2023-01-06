@@ -4,10 +4,15 @@ class CreateAccountDto {
     public password!: string;
 }
 
+class UpdateInfoDto {
+    public firstName!: string;
+    public lastName!: string;
+}
+
 class LoginDto {
     public usernameOrEmail!: string;
     public password!: string;
 }
 
 
-export { CreateAccountDto, LoginDto }
+export { CreateAccountDto, LoginDto, UpdateInfoDto }

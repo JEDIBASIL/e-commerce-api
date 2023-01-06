@@ -13,8 +13,7 @@ class UserAuth extends BaseAuth {
     }
     static async createInstance(req: Request, res: Response, next: NextFunction) {
         try {
-            const auth = new UserAuth(req, res)
-            const user = auth.isExist();
+            const user = await new UserAuth(req, res).isExist();
             req["user"] = user;
             return next()
         } catch (e) {
@@ -22,7 +21,7 @@ class UserAuth extends BaseAuth {
         }
     }
     async isExist() {
-        const user = this.model.findOne({ username: this.value })
+        const user = await this.model.findOne({ username: this.value })
         if (!user) throw new HttpException(409, "account not found")
         return user
     }
