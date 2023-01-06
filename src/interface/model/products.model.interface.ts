@@ -6,6 +6,7 @@ interface IProduct{
     category:Schema.Types.ObjectId;
     description:string;
     rating:number;
+    reviews:any[]
     numReviews:number;
     addedAt:Date;
     qty:number;

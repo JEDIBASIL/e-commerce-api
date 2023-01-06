@@ -6,4 +6,5 @@ import IUserService from "./service/user.service.interface"
 import IRoute from "./routes/route.interface"
 import IProductService from "./service/product.service.interface"
 import ICategory from "./model/category.model.interface"
-export { IUser, IOrder, IProduct, IReview, IUserService, IRoute, IProductService, ICategory }
+import ICart from "./model/cart.model.interface"
+export { IUser, IOrder, IProduct, IReview, IUserService, IRoute, IProductService, ICategory, ICart }

@@ -14,13 +14,13 @@ const productSchema = new Schema<IProduct>({
         required: true
     },
     category: {
-        type:Schema.Types.ObjectId,
-        required:true,
+        type: Schema.Types.ObjectId,
+        required: true,
         ref: "Category"
     },
-    qty:{
-        type:Number,
-        required:true
+    qty: {
+        type: Number,
+        required: true
     },
     description: {
         type: String,
@@ -34,6 +34,12 @@ const productSchema = new Schema<IProduct>({
         type: Number,
         default: 0
     },
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Review"
+        }
+    ],
     numReviews: {
         type: Number,
         default: 0

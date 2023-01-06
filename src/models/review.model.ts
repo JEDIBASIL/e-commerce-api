@@ -3,9 +3,10 @@ import { model, Schema, Document, Types } from 'mongoose';
 import { IReview } from '../interface';
 
 const reviewSchema = new Schema<IReview>({
-    product:{
-        type:Schema.Types.ObjectId,
-        required:true,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true
     },
     rating: {
         type: Number,
