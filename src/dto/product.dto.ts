@@ -30,5 +30,9 @@ class CreateCategoryDto {
     name!: string;
 }
 
+class CartDto {
+    id: string;
+}
 
-export { AddProductDto, DeleteProductDto, GetProductDto, UpdateProductDto, CreateCategoryDto }
+
+export { AddProductDto, DeleteProductDto, GetProductDto, UpdateProductDto, CreateCategoryDto, CartDto }
