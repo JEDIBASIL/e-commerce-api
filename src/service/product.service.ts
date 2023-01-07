@@ -70,6 +70,8 @@ class ProductService implements IProductService {
     }
     async addToCart(Item: CartDto): Promise<ICart> {
         const { accountId, productId } = Item
+        const isInCart = await this.isInCart(accountId, productId)
+        if (isInCart) throw new HttpException(409, "product already in cart")
         const product = await this.productM.findById(productId);
         if (!product) throw new HttpException(404, "product not found")
         const newItem: ICart = await this.cartM.create({ user: accountId, product: productId, qty: 1, price: product?.price })
@@ -79,6 +81,11 @@ class ProductService implements IProductService {
         const { accountId } = account
         const cartProducts: ICart[] = await this.cartM.find({ user: accountId })
         return cartProducts
+    }
+    private async isInCart(account: string, product: string): Promise<boolean> {
+        const foundProduct = await this.cartM.findOne({ user: account, product });
+        if (!foundProduct) return false;
+        return true;
     }
 }
 
