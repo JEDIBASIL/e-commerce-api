@@ -38,7 +38,7 @@ class ProductService implements IProductService {
     async getProductByCategory(categoryName: string): Promise<IProduct[]> {
         const categoryExist = await this.isCategory(categoryName, "name")
         if (!categoryExist) throw new HttpException(404, "category not found")
-        const productsByCategory = (await this.productM.find().populate(["category"])).filter(product => product.category.name === categoryName)
+        const productsByCategory: IProduct[] = (await this.productM.find().populate(["category"])).filter((product: IProduct) => product.category.name === categoryName)
         return productsByCategory;
     }
     async deleteProduct(productId: DeleteProductDto): Promise<boolean> {
@@ -91,10 +91,11 @@ class ProductService implements IProductService {
         const isInCart = await this.isInCart(accountId, productId)
         if (!isInCart) throw new HttpException(409, "product is not in cart")
         const product = await this.productM.findById(productId);
-        if (isInCart.qty === product?.qty) throw new HttpException(409, "no enough product")
+        if (!product) throw new HttpException(404, "product not found")
+        if (isInCart.qty === product.qty) throw new HttpException(409, "no enough product")
         const qty = ++isInCart.qty;
         isInCart.qty = qty
-        isInCart.price = product.price * qty
+        isInCart.price = product?.price * qty
         logger.info(qty)
         isInCart.save()
         return isInCart;
