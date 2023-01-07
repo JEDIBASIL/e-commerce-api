@@ -113,6 +113,13 @@ class ProductService implements IProductService {
         isInCart.save()
         return isInCart;
     }
+    async removeCartProduct(accountId: string, productId: string): Promise<boolean> {
+        const cartProduct = await this.isInCart(accountId, productId);
+        if (!cartProduct) throw new HttpException(404, "product not in cart")
+        const removeProduct = await cartProduct.delete()
+        if (removeProduct) return true
+        return false
+    }
 }
 
 export default ProductService

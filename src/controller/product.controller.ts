@@ -127,6 +127,17 @@ class ProductController {
             if (err instanceof Error) next(err)
         }
     }
+    removeCartProduct = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const account: IUser & Document = req["user"]
+            const { productId } = req.body;
+            const removeCartProduct = await this.service.removeCartProduct(account._id, productId)
+            if (removeCartProduct)
+                return res.status(200).send(new HttpResponse("success", "product removed"))
+        } catch (err: unknown) {
+            if (err instanceof Error) next(err)
+        }
+    }
 }
 
 export default ProductController
