@@ -15,7 +15,8 @@ class ProductRoute implements IRoute {
         this.route.post(`${this.path}`, this.controller.addProduct)
         this.route.post(`${this.path}/category`, this.controller.addCategory)
         this.route.post(`${this.path}/cart`, UserAuth.check, UserAuth.createInstance, this.controller.addToCart)
-        this.route.post(`${this.path}/cart/increase`, UserAuth.check, UserAuth.createInstance, this.controller.inCreaseCartProduct)
+        this.route.post(`${this.path}/cart/increase`, UserAuth.check, UserAuth.createInstance, this.controller.increaseCartProduct)
+        this.route.post(`${this.path}/cart/decrease`, UserAuth.check, UserAuth.createInstance, this.controller.decreaseCartProduct)
         this.route.get(`${this.path}/cart`, UserAuth.check, UserAuth.createInstance, this.controller.getCartProducts);
         this.route.get(`${this.path}/category`, this.controller.getCategories)
         this.route.get(`${this.path}/category/:name`, this.controller.getProductByCategory)

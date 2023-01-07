@@ -29,6 +29,8 @@ interface IProductService {
     addToCart(id:CartDto): Promise<ICart>
     getCartProducts(account:GetCartProductDto):Promise<ICart[]>
     increaseCartProduct(account:string,product:string): Promise<ICart>
+    decreaseCartProduct(account:string,product:string): Promise<ICart>
+    removeCartProduct(account:string,product:string): Promise<boolean>
 }
 
 export default IProductService

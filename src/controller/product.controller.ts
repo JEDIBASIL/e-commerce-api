@@ -105,13 +105,24 @@ class ProductController {
             if (err instanceof Error) next(err)
         }
     }
-    inCreaseCartProduct = async (req: Request, res: Response, next: NextFunction) => {
+    increaseCartProduct = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const account: IUser & Document = req["user"]
             const { productId } = req.body;
             const cartProduct = await this.service.increaseCartProduct(account._id, productId)
             if (cartProduct)
                 return res.status(200).send(new HttpResponse("success", "product qty increased", cartProduct))
+        } catch (err: unknown) {
+            if (err instanceof Error) next(err)
+        }
+    }
+    decreaseCartProduct = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const account: IUser & Document = req["user"]
+            const { productId } = req.body;
+            const cartProduct = await this.service.decreaseCartProduct(account._id, productId)
+            if (cartProduct)
+                return res.status(200).send(new HttpResponse("success", "product qty decreased", cartProduct))
         } catch (err: unknown) {
             if (err instanceof Error) next(err)
         }

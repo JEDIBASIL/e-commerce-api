@@ -100,6 +100,19 @@ class ProductService implements IProductService {
         isInCart.save()
         return isInCart;
     }
+    async decreaseCartProduct(accountId: string, productId: string): Promise<ICart> {
+        const isInCart = await this.isInCart(accountId, productId)
+        if (!isInCart) throw new HttpException(409, "product is not in cart")
+        const product = await this.productM.findById(productId);
+        if (!product) throw new HttpException(404, "product not found")
+        if (isInCart.qty === 1) throw new HttpException(409, "product qty is one")
+        const qty = --isInCart.qty;
+        isInCart.qty = qty
+        isInCart.price = product?.price * qty
+        logger.info(qty)
+        isInCart.save()
+        return isInCart;
+    }
 }
 
 export default ProductService
