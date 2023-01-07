@@ -28,6 +28,7 @@ interface IProductService {
     getProductByCategory(categoryName: string): Promise<IProduct[]>
     addToCart(id:CartDto): Promise<ICart>
     getCartProducts(account:GetCartProductDto):Promise<ICart[]>
+    increaseCartProduct(account:string,product:string): Promise<ICart>
 }
 
 export default IProductService

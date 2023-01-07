@@ -1,10 +1,11 @@
-import { ObjectId } from "mongoose";
+import { Document, ObjectId } from "mongoose";
 import { AddProductDto, GetProductDto, DeleteProductDto, UpdateProductDto, CreateCategoryDto, CartDto, GetCartProductDto } from "../dto/product.dto";
 import HttpException from "../exceptions/HttpException";
 import { ICart, ICategory, IProduct, IProductService } from "../interface";
 import categoryModel from "../models/category.model";
 import productModel from "../models/product.model";
 import cartModel from "../models/cart.model";
+import logger from "../utils/logger";
 
 class ProductService implements IProductService {
 
@@ -82,10 +83,21 @@ class ProductService implements IProductService {
         const cartProducts: ICart[] = await this.cartM.find({ user: accountId })
         return cartProducts
     }
-    private async isInCart(account: string, product: string): Promise<boolean> {
+    private async isInCart(account: string, product: string): Promise<ICart & Document> {
         const foundProduct = await this.cartM.findOne({ user: account, product });
-        if (!foundProduct) return false;
-        return true;
+        return foundProduct as Document & ICart;
+    }
+    async increaseCartProduct(accountId: string, productId: string): Promise<ICart> {
+        const isInCart = await this.isInCart(accountId, productId)
+        if (!isInCart) throw new HttpException(409, "product is not in cart")
+        const product = await this.productM.findById(productId);
+        if (isInCart.qty === product?.qty) throw new HttpException(409, "no enough product")
+        const qty = ++isInCart.qty;
+        isInCart.qty = qty
+        isInCart.price = product.price * qty
+        logger.info(qty)
+        isInCart.save()
+        return isInCart;
     }
 }
 
