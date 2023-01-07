@@ -5,6 +5,7 @@ import HttpException from "../exceptions/HttpException";
 import HttpResponse from "../response/HttpResponse";
 import { ICategory, IUser } from "../interface";
 import { Document } from "mongoose";
+import logger from "../utils/logger";
 
 class ProductController {
     private service = new ProductService()
@@ -90,6 +91,16 @@ class ProductController {
             const newItem = await this.service.addToCart({ accountId: account._id, productId: productId })
             if (newItem)
                 return res.status(200).send(new HttpResponse("success", "item added to cart", newItem))
+        } catch (err: unknown) {
+            if (err instanceof Error) next(err)
+        }
+    }
+    getCartProducts = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const account: IUser & Document = req["user"]
+            const product = await this.service.getCartProducts({ accountId: account._id })
+            if (product)
+                return res.status(200).send(new HttpResponse("success", "cart product", product))
         } catch (err: unknown) {
             if (err instanceof Error) next(err)
         }

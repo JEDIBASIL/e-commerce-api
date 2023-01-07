@@ -1,5 +1,5 @@
 import { ObjectId } from "mongoose";
-import { AddProductDto, GetProductDto, DeleteProductDto, UpdateProductDto, CreateCategoryDto, CartDto } from "../dto/product.dto";
+import { AddProductDto, GetProductDto, DeleteProductDto, UpdateProductDto, CreateCategoryDto, CartDto, GetCartProductDto } from "../dto/product.dto";
 import HttpException from "../exceptions/HttpException";
 import { ICart, ICategory, IProduct, IProductService } from "../interface";
 import categoryModel from "../models/category.model";
@@ -72,8 +72,13 @@ class ProductService implements IProductService {
         const { accountId, productId } = Item
         const product = await this.productM.findById(productId);
         if (!product) throw new HttpException(404, "product not found")
-        const newItem:ICart = await this.cartM.create({ user: accountId, product: productId, qty: 1, price: product?.price })
+        const newItem: ICart = await this.cartM.create({ user: accountId, product: productId, qty: 1, price: product?.price })
         return newItem;
+    }
+    async getCartProducts(account: GetCartProductDto): Promise<ICart[]> {
+        const { accountId } = account
+        const cartProducts: ICart[] = await this.cartM.find({ user: accountId })
+        return cartProducts
     }
 }
 

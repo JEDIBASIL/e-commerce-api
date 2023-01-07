@@ -8,7 +8,7 @@ class App {
     public app: express.Application;
     public port: number;
     constructor(routes: IRoute[]) {
-        this.databaseConnection();
+        this.databaseConnection(); 
         this.app = express();
         this.initializeMiddleware();
         this.initializeRoutes(routes);
