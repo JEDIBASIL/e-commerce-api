@@ -3,13 +3,14 @@ import { Schema, model } from "mongoose";
 import { ICategory } from "../interface";
 
 const categorySchema = new Schema<ICategory>({
-    name:{
-        type:String,
-        required:true,
-        unique:true
+    name: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true
     },
-    addedAt:{
-        type:Date,
+    addedAt: {
+        type: Date,
         default: () => moment().toDate()
     }
 })

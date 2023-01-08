@@ -8,11 +8,13 @@ const userSchema: Schema = new Schema<IUser>({
     type: String,
     required: true,
     unique: true,
+    lowercase: true
   },
   username: {
     type: String,
     required: true,
     unique: true,
+    lowercase: true
   },
   firstName: {
     type: String,
@@ -45,7 +47,7 @@ userSchema.pre('save', async function (next: CallbackWithoutResultAndOptionalErr
   this.password = await bcrypt.hash(this.password, salt);
 })
 
-userSchema.methods.isPasswordMatch = async function(password:string):Promise<boolean>{
+userSchema.methods.isPasswordMatch = async function (password: string): Promise<boolean> {
   return await bcrypt.compare(password, this.password)
 }
 
