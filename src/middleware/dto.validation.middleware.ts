@@ -1,13 +1,16 @@
-import { plainToClass, plainToInstance } from "class-transformer";
+import { plainToInstance } from "class-transformer";
 import { ValidationError, validate } from "class-validator";
 import { RequestHandler } from "express";
 import logger from "../utils/logger";
 import { sanitize } from "class-sanitizer";
+import ErrorMessage from "../enums/error.message.enum";
+import HttpException from "../exceptions/HttpException";
 
 const dtoValidationMiddleware =
     (
         type: any,
         value: "body" | "query" | "params" = "body",
+        message:ErrorMessage,
         skipMissingProperties = false,
         whitelist = true,
         forbidNonWhitelisted = false,
@@ -21,7 +24,7 @@ const dtoValidationMiddleware =
             }).then((errors: ValidationError[]) => {
                 if (errors.length > 0) {
                     logger.error(errors)
-                    next(errors)
+                    next(new HttpException(400,message))
                 } else {
                     sanitize(dtoObject)
                     req[value] = dtoObject
