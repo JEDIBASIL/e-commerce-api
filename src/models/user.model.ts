@@ -2,6 +2,7 @@ import { model, Schema, Document, CallbackWithoutResultAndOptionalError } from '
 import moment from 'moment';
 import { IUser } from '../interface';
 import bcrypt from "bcrypt"
+import Status from '../enums/status.enum';
 
 const userSchema: Schema = new Schema<IUser>({
   email: {
@@ -31,14 +32,13 @@ const userSchema: Schema = new Schema<IUser>({
     default: false,
   },
   status: {
-    type: Boolean,
-    default: false,
+    type: String,
+    default: Status.UNBLOCKED,
   },
   joinedAt: {
     type: Date,
     default: () => moment().toDate(),
   },
-
 });
 
 userSchema.pre('save', async function (next: CallbackWithoutResultAndOptionalError) {

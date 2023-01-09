@@ -1,3 +1,5 @@
+import Status from "../../enums/status.enum";
+
 interface IUser {
     username: string;
     email: string;
@@ -5,7 +7,7 @@ interface IUser {
     lastName: string;
     password: string;
     isVerified: boolean;
-    status: boolean;
+    status: Status;
     joinedAt: Date;
     isPasswordMatch:(password:string) => boolean 
 }

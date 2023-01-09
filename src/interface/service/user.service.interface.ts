@@ -7,6 +7,8 @@ import IUser from "../model/user.model.interface";
 // verify
 // change password
 // update info
+// block user
+// unblock user
 interface IUserService {
     getAllAccount(): Promise<IUser[]>;
     createAccount(newUser: CreateAccountDto): Promise<CreateAccountDto>;
@@ -14,5 +16,4 @@ interface IUserService {
     verify(email: string): Promise<Boolean>
     updateInfo(id: string, userInfo: UpdateInfoDto): Promise<IUser>
 }
-
 export default IUserService;
