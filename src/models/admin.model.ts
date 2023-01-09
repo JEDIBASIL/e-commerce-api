@@ -1,8 +1,9 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document } from "mongoose";
 import { IAdmin } from "../interface";
 import moment from "moment";
 import Status from "../enums/status.enum";
 import AdminRoles from "../enums/admin.enum";
+import bcrypt from "bcrypt"
 
 const adminSchema = new Schema<IAdmin>({
     username: {
@@ -35,6 +36,10 @@ const adminSchema = new Schema<IAdmin>({
         default: AdminRoles.ADMIN
     }
 })
+
+adminSchema.methods.isPasswordMatch = async function (password: string): Promise<boolean> {
+    return await bcrypt.compare(password, this.password)
+  }
 
 const adminModel = model<Document & IAdmin>("Admin", adminSchema)
 export default adminModel
