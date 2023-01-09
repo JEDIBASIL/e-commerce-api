@@ -19,8 +19,8 @@ class UserService implements IUserService {
         const newAccount = await this.model.create({ ...newUser })
         return newAccount;
     }
-    async verify(value: string): Promise<Boolean> {
-        const account = await this.model.findOne({ email: value })
+    async verify(email: string): Promise<Boolean> {
+        const account = await this.model.findOne({ email })
         if (!account) throw new HttpException(400, "invalid token")
         if (account.isVerified) throw new HttpException(200, "user is already verified")
         account.isVerified = true;

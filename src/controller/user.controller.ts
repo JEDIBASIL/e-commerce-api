@@ -39,8 +39,8 @@ class UserController {
         try {
             const { token } = req.body
             if (!token) throw new HttpException(400, "token is required")
-            const verifiedToken: JwtPayload | string = this.jwt.verifyJwt(token)
-            const isVerifiedAccount = await this.service.verify(verifiedToken.value)
+            const { value }: JwtPayload | string = this.jwt.verifyJwt(token)
+            const isVerifiedAccount = await this.service.verify(value)
             if (isVerifiedAccount)
                 return res.status(200).send(new HttpResponse("success", "account verified successfully"))
         } catch (err: unknown) {
