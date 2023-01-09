@@ -33,5 +33,10 @@ class LoginDto {
     public password!: string;
 }
 
+class VerifyDto{
+    @IsString()
+    public token!:string;
+}
 
-export { CreateAccountDto, LoginDto, UpdateInfoDto }
+
+export { CreateAccountDto, LoginDto, UpdateInfoDto,VerifyDto }
