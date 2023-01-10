@@ -1,4 +1,4 @@
-import { BlockDto, CreateAccountDto, LoginDto, UpdateInfoDto, VerifyDto } from "../../dto/user.dto";
+import { BlockDto, CreateAccountDto, LoginDto, UnblockDto, UpdateInfoDto, VerifyDto } from "../../dto/user.dto";
 import IUser from "../model/user.model.interface";
 
 // get all user
@@ -16,5 +16,6 @@ interface IUserService {
     verify(email: string): Promise<Boolean>
     updateInfo(id: string, userInfo: UpdateInfoDto): Promise<IUser>
     block(user:BlockDto):Promise<boolean>
+    unblock(user:UnblockDto):Promise<boolean>
 }
 export default IUserService;

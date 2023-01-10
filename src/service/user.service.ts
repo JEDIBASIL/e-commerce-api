@@ -1,4 +1,4 @@
-import { BlockDto, CreateAccountDto, LoginDto, UpdateInfoDto } from "../dto/user.dto";
+import { BlockDto, CreateAccountDto, LoginDto, UnblockDto, UpdateInfoDto } from "../dto/user.dto";
 import Status from "../enums/status.enum";
 import HttpException from "../exceptions/HttpException";
 import { IUser, IUserService } from "../interface";
@@ -51,6 +51,14 @@ class UserService implements IUserService {
         const account = await this.model.findOne({email})
         if(!account) throw new HttpException(404,"account not found")
         account.status = Status.BLOCKED
+        account.save()
+        return true
+    }
+    async unblock(user: UnblockDto): Promise<boolean> {
+        const { email } = user
+        const account = await this.model.findOne({email})
+        if(!account) throw new HttpException(404,"account not found")
+        account.status = Status.UNBLOCKED
         account.save()
         return true
     }

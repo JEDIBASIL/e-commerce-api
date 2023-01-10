@@ -76,7 +76,17 @@ class UserController {
             const data: BlockDto = req.body
             const isBlocked = await this.service.block(data)
             if (isBlocked)
-                return res.status(200).send(new HttpResponse("success", "admin blocked"))
+                return res.status(200).send(new HttpResponse("success", "user blocked"))
+        } catch (err: unknown) {
+            if (err instanceof Error) next(err)
+        }
+    }
+    unblock = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const data: BlockDto = req.body
+            const isBlocked = await this.service.unblock(data)
+            if (isBlocked)
+                return res.status(200).send(new HttpResponse("success", "user  unblocked"))
         } catch (err: unknown) {
             if (err instanceof Error) next(err)
         }
