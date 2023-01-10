@@ -1,3 +1,4 @@
+import { AddAdminDto } from "../../dto/admin.dto";
 import IAdmin from "../model/admin.model.interface";
 // add admin
 // block admin
@@ -6,6 +7,8 @@ import IAdmin from "../model/admin.model.interface";
 // delete admin
 // change password
 
-interface IAdminService{
-    addAdmin():Promise<IAdmin>
+interface IAdminService {
+    addAdmin(superAdmin: string, newAdmin: AddAdminDto): Promise<IAdmin>
 }
+
+export default IAdminService;

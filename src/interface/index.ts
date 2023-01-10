@@ -8,4 +8,5 @@ import IProductService from "./service/product.service.interface"
 import ICategory from "./model/category.model.interface"
 import ICart from "./model/cart.model.interface"
 import IAdmin from "./model/admin.model.interface"
-export { IUser, IOrder, IProduct, IReview, IUserService, IRoute, IProductService, ICategory, ICart, IAdmin }
+import IAdminService from "./service/admin.service.interface"
+export { IUser, IOrder, IProduct, IReview, IUserService, IRoute, IProductService, ICategory, ICart, IAdmin, IAdminService }
