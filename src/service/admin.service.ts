@@ -1,4 +1,4 @@
-import { AddAdminDto } from "../dto/admin.dto";
+import { AddAdminDto, ChangePasswordDto } from "../dto/admin.dto";
 import HttpException from "../exceptions/HttpException";
 import { IAdmin, IAdminService } from "../interface";
 import adminModel from "../models/admin.model";
@@ -13,6 +13,14 @@ class AdminService implements IAdminService {
         if (findByUsername) throw new HttpException(409, "username taken")
         const admin = await this.modelA.create({ ...newAdmin, addedBy: superAdmin });
         return admin;
+    }
+    async changePassword(newPassword: ChangePasswordDto): Promise<IAdmin> {
+        const admin = await this.modelA.findOne({ email: newPassword.token })
+        if (!admin) throw new HttpException(404, "account not found")
+        if (newPassword.confirmPassword !== newPassword.password) throw new HttpException(400, "password do not match")
+        admin.isVerified = true;
+        admin.password = newPassword.password
+        return admin
     }
 }
 

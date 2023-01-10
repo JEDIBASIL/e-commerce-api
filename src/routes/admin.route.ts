@@ -9,7 +9,14 @@ class AdminRoute implements IRoute {
         this.initializeRoute()
     }
     private initializeRoute() {
-        this.route.post(`${this.path}`, this.controller.addAdmin)
+        this.route.post(
+            `${this.path}`,
+            this.controller.addAdmin
+        )
+        this.route.post(
+            `${this.path}/password`,
+            this.controller.changePassword
+        )
     }
 }
 
