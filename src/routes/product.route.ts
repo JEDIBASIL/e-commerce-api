@@ -4,6 +4,8 @@ import ProductController from "../controller/product.controller";
 import UserAuth from "../auth/user.auth";
 import dtoValidationMiddleware from "../middleware/dto.validation.middleware";
 import { AddProductDto } from "../dto/product.dto";
+import ErrorMessage from "../enums/error.message.enum";
+import AdminAuth from "../auth/admin.auth";
 
 class ProductRoute implements IRoute {
     public path: string = "/product"
@@ -16,7 +18,7 @@ class ProductRoute implements IRoute {
     private initializeRoute() {
         this.route.post(
             `${this.path}`,
-            dtoValidationMiddleware(AddProductDto,"body",),
+            dtoValidationMiddleware(AddProductDto, "body", ErrorMessage.FIELDS),
             this.controller.addProduct
         )
         this.route.post(
@@ -55,6 +57,8 @@ class ProductRoute implements IRoute {
         )
         this.route.get(
             `${this.path}/category`,
+            AdminAuth.check,
+            AdminAuth.createInstance,
             this.controller.getCategories
         )
         this.route.get(
@@ -71,10 +75,14 @@ class ProductRoute implements IRoute {
         )
         this.route.patch(
             `${this.path}/:id`,
+            AdminAuth.check,
+            AdminAuth.createInstance,
             this.controller.updateProduct
         )
         this.route.delete(
             `${this.path}/:id`,
+            AdminAuth.check,
+            AdminAuth.createInstance,
             this.controller.deleteProduct
         )
     }

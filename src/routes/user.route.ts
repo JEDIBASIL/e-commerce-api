@@ -45,18 +45,20 @@ class UserRoute implements IRoute {
             `${this.path}/block`,
             dtoValidationMiddleware(BlockDto, "body", ErrorMessage.FIELDS),
             AdminAuth.check,
-            AdminAuth.isSuper,
+            AdminAuth.isSub,
             this.controller.block
         )
         this.route.post(
             `${this.path}/unblock`,
             dtoValidationMiddleware(UnblockDto, "body", ErrorMessage.FIELDS),
             AdminAuth.check,
-            AdminAuth.isSuper,
+            AdminAuth.isSub,
             this.controller.unblock
         )
         this.route.get(
             `${this.path}`,
+            AdminAuth.check,
+            AdminAuth.isSub,
             this.controller.getAllAccount
         )
     }
