@@ -1,4 +1,5 @@
-import { AddAdminDto, ChangePasswordDto } from "../dto/admin.dto";
+import { AddAdminDto, AdminLoginDto, ChangePasswordDto } from "../dto/admin.dto";
+import Status from "../enums/status.enum";
 import HttpException from "../exceptions/HttpException";
 import { IAdmin, IAdminService } from "../interface";
 import adminModel from "../models/admin.model";
@@ -20,7 +21,17 @@ class AdminService implements IAdminService {
         if (newPassword.confirmPassword !== newPassword.password) throw new HttpException(400, "password do not match")
         admin.isVerified = true;
         admin.password = newPassword.password
+        admin.save()
         return admin
+    }
+    async login(credentials: AdminLoginDto): Promise<IAdmin> {
+        const { email, password } = credentials
+        const findByEmail = await this.modelA.findOne({ email })
+        if (!findByEmail) throw new HttpException(400, "incorrect email or password")
+        if (!findByEmail.isVerified) throw new HttpException(400, "account not verified")
+        if (findByEmail.status === Status.BLOCKED) throw new HttpException(400, "account blocked")
+        if (!findByEmail.isPasswordMatch(password)) throw new HttpException(400, "incorrect email or password")
+        return findByEmail
     }
 }
 

@@ -17,6 +17,10 @@ class AdminRoute implements IRoute {
             `${this.path}/password`,
             this.controller.changePassword
         )
+        this.route.post(
+            `${this.path}/login`,
+            this.controller.login
+        )
     }
 }
 

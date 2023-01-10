@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import AdminService from "../service/admin.service";
-import { AddAdminDto, ChangePasswordDto } from "../dto/admin.dto";
+import { AddAdminDto, AdminLoginDto, ChangePasswordDto } from "../dto/admin.dto";
 import HttpResponse from "../response/HttpResponse";
 import JwtToken from "../utils/token";
 import { templateReader } from "../utils/templateReader";
@@ -35,6 +35,19 @@ class AdminController {
             const changedPassword = await this.service.changePassword(newPassword)
             if (changedPassword)
                 return res.status(200).send(new HttpResponse("success", "password changed"))
+        } catch (err) {
+            if (err instanceof Error) next(err)
+        }
+    }
+    login = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { email, password }: AdminLoginDto = req.body
+            const admin = await this.service.login({ password, email })
+            if (admin) {
+                const accessToken = this.jwt.signJwt(admin.username, "600s")
+                const refreshToken = this.jwt.signJwt(admin.email, "30d")
+                return res.status(200).send(new HttpResponse("success", "account authenticated", { accessToken, refreshToken }))
+            }
         } catch (err) {
             if (err instanceof Error) next(err)
         }
