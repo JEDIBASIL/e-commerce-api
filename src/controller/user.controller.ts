@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import UserService from "../service/user.service";
 import HttpResponse from "../response/HttpResponse";
 import HttpException from "../exceptions/HttpException";
-import { CreateAccountDto, LoginDto, UpdateInfoDto } from "../dto/user.dto";
+import { BlockDto, CreateAccountDto, LoginDto, UpdateInfoDto } from "../dto/user.dto";
 import Mail from "../utils/mail";
 import MailOptions from "../utils/mailOptions";
 import { templateReader } from "../utils/templateReader";
@@ -67,6 +67,16 @@ class UserController {
             const updatedInfo = await this.service.updateInfo(user._id, data)
             if (!updatedInfo) throw new HttpException(500, "an error occurred")
             return res.status(200).send(new HttpResponse("success", "account info update"))
+        } catch (err: unknown) {
+            if (err instanceof Error) next(err)
+        }
+    }
+    block = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const data: BlockDto = req.body
+            const isBlocked = await this.service.block(data)
+            if (isBlocked)
+                return res.status(200).send(new HttpResponse("success", "admin blocked"))
         } catch (err: unknown) {
             if (err instanceof Error) next(err)
         }

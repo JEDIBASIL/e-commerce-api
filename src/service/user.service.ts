@@ -1,4 +1,5 @@
-import { CreateAccountDto, LoginDto, UpdateInfoDto } from "../dto/user.dto";
+import { BlockDto, CreateAccountDto, LoginDto, UpdateInfoDto } from "../dto/user.dto";
+import Status from "../enums/status.enum";
 import HttpException from "../exceptions/HttpException";
 import { IUser, IUserService } from "../interface";
 import userModel from "../models/user.model";
@@ -44,6 +45,14 @@ class UserService implements IUserService {
         updateAccount!.lastName = lastName
         await updateAccount?.save()
         return updateAccount as IUser;
+    }
+    async block(user: BlockDto): Promise<boolean> {
+        const { email } = user
+        const account = await this.model.findOne({email})
+        if(!account) throw new HttpException(404,"account not found")
+        account.status = Status.BLOCKED
+        account.save()
+        return true
     }
 }
 

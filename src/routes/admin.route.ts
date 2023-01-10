@@ -29,14 +29,14 @@ class AdminRoute implements IRoute {
             `${this.path}/login`,
             dtoValidationMiddleware(AdminLoginDto, "body", ErrorMessage.FIELDS),
             this.controller.login
-        ),
+        )
         this.route.post(
             `${this.path}/block`,
             AdminAuth.check,
             AdminAuth.isSuper,
             dtoValidationMiddleware(BlockAdminDto, "body", ErrorMessage.FIELDS),
             this.controller.block
-        ),
+        )
         this.route.post(
             `${this.path}/unblock`,
             AdminAuth.check,

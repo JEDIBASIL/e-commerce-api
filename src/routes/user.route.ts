@@ -3,8 +3,9 @@ import { IRoute } from "../interface";
 import UserController from "../controller/user.controller";
 import UserAuth from "../auth/user.auth";
 import dtoValidationMiddleware from "../middleware/dto.validation.middleware";
-import { CreateAccountDto, LoginDto, UpdateInfoDto, VerifyDto } from "../dto/user.dto";
+import { BlockDto, CreateAccountDto, LoginDto, UpdateInfoDto, VerifyDto } from "../dto/user.dto";
 import ErrorMessage from "../enums/error.message.enum";
+import AdminAuth from "../auth/admin.auth";
 
 class UserRoute implements IRoute {
 
@@ -41,7 +42,17 @@ class UserRoute implements IRoute {
             UserAuth.createInstance,
             this.controller.updateInfo
         )
-        this.route.get(`${this.path}`, this.controller.getAllAccount)
+        this.route.post(
+            `${this.path}/block`,
+            dtoValidationMiddleware(BlockDto, "body", ErrorMessage.FIELDS),
+            AdminAuth.check,
+            AdminAuth.isSuper,
+            this.controller.block
+        )
+        this.route.get(
+            `${this.path}`, 
+            this.controller.getAllAccount
+        )
     }
 }
 
