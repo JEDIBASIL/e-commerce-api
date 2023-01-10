@@ -25,8 +25,10 @@ class AdminLoginDto {
 class ChangePasswordDto {
     @IsString()
     token!: string;
-    @IsEmail()
-    email!: string
+    @IsString()
+    password!: string
+    @IsString()
+    confirmPassword!: string
 }
 
 class DeleteAdmin {
