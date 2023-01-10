@@ -1,4 +1,4 @@
-import { AddAdminDto, AdminLoginDto, ChangePasswordDto } from "../dto/admin.dto";
+import { AddAdminDto, AdminLoginDto, ChangePasswordDto, BlockAdminDto } from "../dto/admin.dto";
 import Status from "../enums/status.enum";
 import HttpException from "../exceptions/HttpException";
 import { IAdmin, IAdminService } from "../interface";
@@ -32,6 +32,14 @@ class AdminService implements IAdminService {
         if (findByEmail.status === Status.BLOCKED) throw new HttpException(400, "account blocked")
         if (!findByEmail.isPasswordMatch(password)) throw new HttpException(400, "incorrect email or password")
         return findByEmail
+    }
+    async block(admin: BlockAdminDto): Promise<boolean> {
+        const { email } = admin
+        const account = await this.modelA.findOne({email})
+        if(!account) throw new HttpException(404, "admin not found")
+        account.status = Status.BLOCKED
+        account.save();
+        return true;
     }
 }
 
