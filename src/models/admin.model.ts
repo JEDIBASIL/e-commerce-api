@@ -1,4 +1,4 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, CallbackWithoutResultAndOptionalError } from "mongoose";
 import { IAdmin } from "../interface";
 import moment from "moment";
 import Status from "../enums/status.enum";
@@ -20,11 +20,13 @@ const adminSchema = new Schema<IAdmin>({
     },
     password: {
         type: String,
-        required: true,
+    },
+    isVerified:{
+        type:Boolean,
+        default:false
     },
     addedBy: {
         type: String,
-        required: true,
     },
     addedAt: {
         type: Date,
@@ -40,6 +42,12 @@ const adminSchema = new Schema<IAdmin>({
         default: AdminRoles.ADMIN
     }
 })
+
+adminSchema.pre('save', async function (next: CallbackWithoutResultAndOptionalError) {
+    if (!this.isModified("password")) next();
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  })
 
 adminSchema.methods.isPasswordMatch = async function (password: string): Promise<boolean> {
     return await bcrypt.compare(password, this.password)
