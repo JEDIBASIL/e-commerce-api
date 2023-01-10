@@ -8,6 +8,7 @@ interface IAdmin{
     role:AdminRoles
     addedAt:Date;
     status:Status;
+    addedBy:string;
     isPasswordMatch:(password:string) => boolean 
 }
 

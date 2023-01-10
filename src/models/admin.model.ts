@@ -22,6 +22,10 @@ const adminSchema = new Schema<IAdmin>({
         type: String,
         required: true,
     },
+    addedBy: {
+        type: String,
+        required: true,
+    },
     addedAt: {
         type: Date,
         default: () => moment().toDate()
@@ -39,7 +43,7 @@ const adminSchema = new Schema<IAdmin>({
 
 adminSchema.methods.isPasswordMatch = async function (password: string): Promise<boolean> {
     return await bcrypt.compare(password, this.password)
-  }
+}
 
 const adminModel = model<Document & IAdmin>("Admin", adminSchema)
 export default adminModel
