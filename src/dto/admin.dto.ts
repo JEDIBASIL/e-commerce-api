@@ -14,6 +14,14 @@ class AddAdminDto {
     public role!: AdminRoles
 }
 
+class AdminLoginDto {
+    @IsEmail()
+    @Trim()
+    public email!: string;
+    @IsString()
+    public password!: string
+}
+
 class ChangePasswordDto {
     @IsString()
     token!: string;
@@ -36,4 +44,4 @@ class UnblockAdmin {
     email!: string;
 }
 
-export { AddAdminDto, ChangePasswordDto, DeleteAdmin, BlockAdmin, UnblockAdmin }
+export { AddAdminDto, ChangePasswordDto, DeleteAdmin, BlockAdmin, UnblockAdmin, AdminLoginDto }
