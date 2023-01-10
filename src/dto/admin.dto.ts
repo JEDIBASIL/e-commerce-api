@@ -1,5 +1,6 @@
 import { Trim } from "class-sanitizer";
 import { IsEmail, IsString, MinLength } from "class-validator";
+import AdminRoles from "../enums/admin.enum";
 
 class AddAdminDto {
     @IsString()
@@ -9,6 +10,8 @@ class AddAdminDto {
     @IsEmail()
     @Trim()
     public email!: string;
+    @IsString()
+    public role!: AdminRoles
 }
 
 class ChangePasswordDto {
