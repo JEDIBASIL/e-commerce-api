@@ -9,6 +9,7 @@ interface IAdmin{
     addedAt:Date;
     status:Status;
     addedBy:string;
+    isVerified:boolean;
     isPasswordMatch:(password:string) => boolean 
 }
 
