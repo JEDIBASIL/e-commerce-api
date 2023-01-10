@@ -7,6 +7,7 @@ import { templateReader } from "../utils/templateReader";
 import MailOptions from "../utils/mailOptions";
 import Mail from "../utils/mail";
 import { JwtPayload } from "jsonwebtoken";
+import { IAdmin } from "../interface";
 
 class AdminController {
     private service = new AdminService();
@@ -15,10 +16,11 @@ class AdminController {
     addAdmin = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const data: AddAdminDto = req.body
+            const superAdmin: IAdmin & Document = req["admin"]
             const { email, username } = data
             const verificationToken = this.jwt.signJwt(email, "1000s");
             const emailTemplate = await templateReader(`verifyMail.hbs`, { username, link: verificationToken })
-            const newAdmin = await this.service.addAdmin("Jedi", data)
+            const newAdmin = await this.service.addAdmin(superAdmin.username, data)
             if (newAdmin) {
                 await this.mail.sendMail(new MailOptions(email, "verify account", emailTemplate))
                 return res.status(200).send(new HttpResponse("success", "admin added"))

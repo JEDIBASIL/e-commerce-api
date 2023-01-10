@@ -57,7 +57,7 @@ class UserRoute implements IRoute {
             this.controller.unblock
         )
         this.route.get(
-            `${this.path}`, 
+            `${this.path}`,
             this.controller.getAllAccount
         )
     }

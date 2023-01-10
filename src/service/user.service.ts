@@ -33,9 +33,9 @@ class UserService implements IUserService {
         const { password, usernameOrEmail } = credentials
         const findByUsernameOrEmail = await this.model.findOne({ $or: [{ "username": usernameOrEmail }, { "email": usernameOrEmail }] }).select("+password")
         if (!findByUsernameOrEmail) throw new HttpException(404, "incorrect username or email, and password")
-        const isCorrectPassword = await findByUsernameOrEmail.isPasswordMatch(password)
-        if (!isCorrectPassword) throw new HttpException(404, "incorrect username or email, and password")
+        if (!findByUsernameOrEmail.isPasswordMatch(password)) throw new HttpException(404, "incorrect username or email, and password")
         if (!findByUsernameOrEmail.isVerified) throw new HttpException(403, "account is not verified")
+        if (findByUsernameOrEmail.status === Status.BLOCKED) throw new HttpException(401, "account blocked")
         return findByUsernameOrEmail;
     }
     async updateInfo(id: string, userInfo: UpdateInfoDto): Promise<IUser> {
@@ -48,16 +48,16 @@ class UserService implements IUserService {
     }
     async block(user: BlockDto): Promise<boolean> {
         const { email } = user
-        const account = await this.model.findOne({email})
-        if(!account) throw new HttpException(404,"account not found")
+        const account = await this.model.findOne({ email })
+        if (!account) throw new HttpException(404, "account not found")
         account.status = Status.BLOCKED
         account.save()
         return true
     }
     async unblock(user: UnblockDto): Promise<boolean> {
         const { email } = user
-        const account = await this.model.findOne({email})
-        if(!account) throw new HttpException(404,"account not found")
+        const account = await this.model.findOne({ email })
+        if (!account) throw new HttpException(404, "account not found")
         account.status = Status.UNBLOCKED
         account.save()
         return true
