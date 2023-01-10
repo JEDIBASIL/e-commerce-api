@@ -12,7 +12,7 @@ class App {
         this.app = express();
         this.initializeMiddleware();
         this.initializeRoutes(routes);
-        this.port = 8080;
+        this.port = 8084;
     }
 
     listen() {
