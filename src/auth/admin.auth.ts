@@ -31,12 +31,21 @@ class AdminAuth extends BaseAuth {
             next(e);
         }
     }
+    static async isSub(req: Request, res: Response, next: NextFunction) {
+        try {
+            const admin = await new AdminAuth(req, res).isExist();
+            if (admin.role !== AdminRoles.SUPER && admin.role !== AdminRoles.SUB_SUPER) throw new HttpException(401, "not a super or sub admin")
+            req["admin"] = admin;
+            return next()
+        } catch (e) {
+            next(e);
+        }
+    }
     async isExist() {
         const admin = await this.model.findOne({ username: this.value })
         if (!admin) throw new HttpException(409, "account not found")
         return admin
     }
-
 }
 
 export default AdminAuth

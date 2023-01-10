@@ -34,7 +34,6 @@ class UserRoute implements IRoute {
             dtoValidationMiddleware(LoginDto, "body", ErrorMessage.FIELDS),
             this.controller.login
         )
-
         this.route.post(
             `${this.path}/info`,
             dtoValidationMiddleware(UpdateInfoDto, "body", ErrorMessage.FIELDS),

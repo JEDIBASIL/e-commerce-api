@@ -1,7 +1,7 @@
 enum AdminRoles {
     SUPER = "super",
     SUB_SUPER = "sub super",
-    ADMIN = "admin"
+    PRODUCT_MANAGER = "product manager"
 }
 
 export default AdminRoles
