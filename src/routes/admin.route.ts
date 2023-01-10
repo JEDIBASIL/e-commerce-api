@@ -36,6 +36,13 @@ class AdminRoute implements IRoute {
             AdminAuth.isSuper,
             dtoValidationMiddleware(BlockAdminDto, "body", ErrorMessage.FIELDS),
             this.controller.block
+        ),
+        this.route.post(
+            `${this.path}/unblock`,
+            AdminAuth.check,
+            AdminAuth.isSuper,
+            dtoValidationMiddleware(BlockAdminDto, "body", ErrorMessage.FIELDS),
+            this.controller.unblock
         )
     }
 }

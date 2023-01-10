@@ -41,6 +41,14 @@ class AdminService implements IAdminService {
         account.save();
         return true;
     }
+    async unblock(admin: BlockAdminDto): Promise<boolean> {
+        const { email } = admin
+        const account = await this.modelA.findOne({email})
+        if(!account) throw new HttpException(404, "admin not found")
+        account.status = Status.UNBLOCKED
+        account.save();
+        return true;
+    }
 }
 
 export default AdminService

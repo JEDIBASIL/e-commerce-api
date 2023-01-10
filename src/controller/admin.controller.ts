@@ -62,6 +62,16 @@ class AdminController {
             if (err instanceof Error) next(err)
         }
     }
+    unblock = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const data: BlockAdminDto = req.body
+            const isBlocked = await this.service.unblock(data)
+            if (isBlocked)
+                return res.status(200).send(new HttpResponse("success", "admin unblocked"))
+        } catch (err) {
+            if (err instanceof Error) next(err)
+        }
+    }
 }
 
 export default AdminController
