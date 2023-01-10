@@ -36,14 +36,14 @@ class DeleteAdmin {
     email!: string;
 }
 
-class BlockAdmin {
+class BlockAdminDto {
     @IsEmail()
     email!: string;
 }
 
-class UnblockAdmin {
+class UnblockAdminDto {
     @IsEmail()
     email!: string;
 }
 
-export { AddAdminDto, ChangePasswordDto, DeleteAdmin, BlockAdmin, UnblockAdmin, AdminLoginDto }
+export { AddAdminDto, ChangePasswordDto, DeleteAdmin, BlockAdminDto, UnblockAdminDto, AdminLoginDto }
