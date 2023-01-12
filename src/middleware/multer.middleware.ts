@@ -1,4 +1,4 @@
-import multer, { DiskStorageOptions, Multer } from "multer"
+import multer, { DiskStorageOptions, Multer, diskStorage } from "multer"
 import path from "path";
 import { v4 } from "uuid";
 import HttpException from "../exceptions/HttpException";
@@ -19,12 +19,13 @@ class MulterUpload {
     }
     public upload(): Multer {
         const upload = multer({
-            storage: this.storage as multer.StorageEngine,
-            fileFilter: function (req, file, callback) {
+            storage: diskStorage(this.storage),
+            fileFilter: function (req, file, next) {
                 var ext = path.extname(file.originalname);
-                if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
-                    return callback(new HttpException(406, 'Only images are allowed'))
+                if (ext !== '.html' && ext !== '.hbs') {
+                    return next(new HttpException(406, 'Only images are allowed'))
                 }
+                next(null, true)
             }, limits: {
                 fileSize: 1024 * 1024,
             },

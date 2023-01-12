@@ -5,6 +5,8 @@ import dtoValidationMiddleware from "../middleware/dto.validation.middleware";
 import { AddAdminDto, AdminLoginDto, BlockAdminDto, ChangePasswordDto } from "../dto/admin.dto";
 import ErrorMessage from "../enums/error.message.enum";
 import AdminAuth from "../auth/admin.auth";
+import MulterUpload from "../middleware/multer.middleware";
+import multerUpload from "../middleware/multer.middleware";
 class AdminRoute implements IRoute {
     path: string = "/admin";
     route: Router = Router();
@@ -43,6 +45,11 @@ class AdminRoute implements IRoute {
             AdminAuth.check,
             AdminAuth.isSuper,
             this.controller.unblock
+        )
+        this.route.post(
+            `${this.path}/template`,
+            new multerUpload("templates").upload().single("template"),
+            this.controller.addMailTemplate
         )
     }
 }

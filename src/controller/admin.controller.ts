@@ -8,6 +8,8 @@ import MailOptions from "../utils/mailOptions";
 import Mail from "../utils/mail";
 import { JwtPayload } from "jsonwebtoken";
 import { IAdmin } from "../interface";
+import MulterUpload from "../middleware/multer.middleware";
+import logger from "../utils/logger";
 
 class AdminController {
     private service = new AdminService();
@@ -70,6 +72,14 @@ class AdminController {
             const isBlocked = await this.service.unblock(data)
             if (isBlocked)
                 return res.status(200).send(new HttpResponse("success", "admin unblocked"))
+        } catch (err) {
+            if (err instanceof Error) next(err)
+        }
+    }
+    addMailTemplate = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const filename = req.file!.filename
+            return res.status(200).send(new HttpResponse("success", "email template added", filename))
         } catch (err) {
             if (err instanceof Error) next(err)
         }
