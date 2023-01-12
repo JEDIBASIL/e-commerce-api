@@ -10,4 +10,5 @@ import ICart from "./model/cart.model.interface"
 import IAdmin from "./model/admin.model.interface"
 import IAdminService from "./service/admin.service.interface"
 import IUserNotification from "./model/userNotification.model.interface"
-export { IUser, IOrder, IProduct, IReview, IUserService, IRoute, IProductService, ICategory, ICart, IAdmin, IAdminService, IUserNotification }
+import ITemplate from "./model/template.model.interface"
+export { IUser, IOrder, IProduct, IReview, IUserService, IRoute, IProductService, ICategory, ICart, IAdmin, IAdminService, IUserNotification, ITemplate }
