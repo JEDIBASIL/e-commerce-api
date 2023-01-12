@@ -13,6 +13,10 @@ const templateSchema = new Schema<ITemplate>({
         required: true,
         unique: true
     },
+    path:{
+        type:String,
+        required:true,
+    },
     addedBy: {
         type: String,
         required: true,
