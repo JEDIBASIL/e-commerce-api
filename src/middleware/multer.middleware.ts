@@ -2,7 +2,6 @@ import multer, { DiskStorageOptions, Multer, diskStorage } from "multer"
 import path from "path";
 import { v4 } from "uuid";
 import HttpException from "../exceptions/HttpException";
-import logger from "../utils/logger";
 class MulterUpload {
     private storage: DiskStorageOptions;
     constructor(folder: string) {
@@ -14,8 +13,6 @@ class MulterUpload {
                 cb(null, v4() + path.extname(file.originalname))
             },
         }
-        const upload = this.upload().single("file")
-        logger.info(upload.toString())
     }
     public upload(): Multer {
         const upload = multer({
@@ -30,7 +27,6 @@ class MulterUpload {
                 fileSize: 1024 * 1024,
             },
         })
-        console.log("upload")
         return upload
     }
 }
