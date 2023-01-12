@@ -1,5 +1,6 @@
 import { Schema, model, Document } from "mongoose";
 import { ITemplate } from "../interface";
+import moment from "moment";
 
 const templateSchema = new Schema<ITemplate>({
     name: {
@@ -20,7 +21,11 @@ const templateSchema = new Schema<ITemplate>({
     addedBy: {
         type: String,
         required: true,
-        unique: true
+    },
+    addedAt:{
+        type:Date,
+        required:true,
+        default:() => moment().toDate()
     }
 })
 

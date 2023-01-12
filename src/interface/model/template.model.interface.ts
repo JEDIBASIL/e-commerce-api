@@ -1,7 +1,7 @@
 interface ITemplate{
     name:string
     filename:string
-    addedAt:string
+    addedAt?:Date
     addedBy:string
     path:string
 }
