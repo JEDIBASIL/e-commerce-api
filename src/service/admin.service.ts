@@ -1,11 +1,13 @@
 import { AddAdminDto, AdminLoginDto, ChangePasswordDto, BlockAdminDto } from "../dto/admin.dto";
 import Status from "../enums/status.enum";
 import HttpException from "../exceptions/HttpException";
-import { IAdmin, IAdminService } from "../interface";
+import { IAdmin, IAdminService, ITemplate } from "../interface";
 import adminModel from "../models/admin.model";
+import templateModel from "../models/template.model";
 
 class AdminService implements IAdminService {
     private modelA = adminModel
+    private modelT = templateModel
     async addAdmin(superAdmin: string, newAdmin: AddAdminDto): Promise<IAdmin> {
         const { email, username } = newAdmin
         const findByEmail = await this.modelA.findOne({ email })
@@ -35,19 +37,26 @@ class AdminService implements IAdminService {
     }
     async block(admin: BlockAdminDto): Promise<boolean> {
         const { email } = admin
-        const account = await this.modelA.findOne({email})
-        if(!account) throw new HttpException(404, "admin not found")
+        const account = await this.modelA.findOne({ email })
+        if (!account) throw new HttpException(404, "admin not found")
         account.status = Status.BLOCKED
         account.save();
         return true;
     }
     async unblock(admin: BlockAdminDto): Promise<boolean> {
         const { email } = admin
-        const account = await this.modelA.findOne({email})
-        if(!account) throw new HttpException(404, "admin not found")
+        const account = await this.modelA.findOne({ email })
+        if (!account) throw new HttpException(404, "admin not found")
         account.status = Status.UNBLOCKED
         account.save();
         return true;
+    }
+    async addTemplate(template: ITemplate): Promise<boolean> {
+        const findTemplateByName = await this.modelT.findOne({ name: template.name })
+        if (findTemplateByName) throw new HttpException(409, "template with this name already exist")
+        const newTemplate = await this.modelT.create(template)
+        if (!newTemplate) throw new HttpException(500, "an error occurred")
+        return true
     }
 }
 
