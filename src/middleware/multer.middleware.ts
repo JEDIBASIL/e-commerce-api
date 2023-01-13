@@ -14,18 +14,18 @@ class MulterUpload {
             },
         }
     }
-    public upload(): Multer {
+    public upload(fileExts: string[]): Multer {
         const upload = multer({
-            storage: diskStorage(this.storage),
+
             fileFilter: function (req, file, next) {
                 var ext = path.extname(file.originalname);
-                if (ext !== '.html' && ext !== '.hbs') {
-                    return next(new HttpException(406, 'Only images are allowed'))
-                }
+                if (!fileExts.includes(ext)) return next(new HttpException(406, 'Only not acceptable file format'))
                 next(null, true)
             }, limits: {
                 fileSize: 1024 * 1024,
             },
+            storage: diskStorage(this.storage),
+
         })
         return upload
     }
