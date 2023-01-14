@@ -19,7 +19,7 @@ class App {
         this.app.listen(this.port, () => {
             logger.info("▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎")
             logger.info(`▼                                   ▼`)
-            logger.info(`▼ 🚀 listening on port ${this.port}         ▼`)
+            logger.info(`▼ 🚀 🅻🅸🆂🆃🅴🅽🅸🅽🅶 🅾🅽 🅿🅾🆁🆃 ${this.port}         ▼`)
             logger.info(`▼                                   ▼`)
             logger.info("▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎")
         })
@@ -30,7 +30,7 @@ class App {
             await connect(dbConnection.uri as string, dbConnection.options as ConnectOptions)
             logger.info("▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎")
             logger.info(`▼                                   ▼`)
-            logger.info(`▼ 🛢  database connected             ▼`)
+            logger.info(`▼ 🛢  🅳🅰🆃🅰🅱🅰🆂🅴 🅲🅾🅽🅽🅴🅲🆃🅴🅳             ▼`)
             logger.info(`▼                                   ▼`)
             logger.info("▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎▶︎")
         } catch (err: unknown) {
