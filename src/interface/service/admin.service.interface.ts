@@ -1,4 +1,4 @@
-import { AddAdminDto, AdminLoginDto, BlockAdminDto, ChangePasswordDto, UnblockAdminDto } from "../../dto/admin.dto";
+import { AddAdminDto, AdminLoginDto, BlockAdminDto, ChangePasswordDto, DeleteTemplateDto, UnblockAdminDto } from "../../dto/admin.dto";
 import IAdmin from "../model/admin.model.interface";
 import ITemplate from "../model/template.model.interface";
 // add admin
@@ -17,7 +17,7 @@ interface IAdminService {
     block(admin:BlockAdminDto):Promise<boolean>
     unblock(admin:UnblockAdminDto):Promise<boolean>
     addTemplate(template:ITemplate):Promise<boolean>
-    deleteTemplate(template:ITemplate):Promise<boolean>
+    deleteTemplate(template:DeleteTemplateDto):Promise<boolean>
 }
 
 export default IAdminService;

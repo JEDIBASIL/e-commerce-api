@@ -1,4 +1,4 @@
-import { AddAdminDto, AdminLoginDto, ChangePasswordDto, BlockAdminDto } from "../dto/admin.dto";
+import { AddAdminDto, AdminLoginDto, ChangePasswordDto, BlockAdminDto, DeleteTemplateDto } from "../dto/admin.dto";
 import Status from "../enums/status.enum";
 import HttpException from "../exceptions/HttpException";
 import { IAdmin, IAdminService, ITemplate } from "../interface";
@@ -57,6 +57,11 @@ class AdminService implements IAdminService {
         const newTemplate = await this.modelT.create(template)
         if (!newTemplate) throw new HttpException(500, "an error occurred")
         return true
+    }
+    async deleteTemplate(template: DeleteTemplateDto): Promise<boolean> {
+        const { filename } = template
+        const foundTemplate = await this.modelT.findOne({ filename })
+        if(!foundTemplate)  throw new HttpException(404, "template not found")
     }
 }
 

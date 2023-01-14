@@ -5,7 +5,7 @@ import HttpException from "../exceptions/HttpException";
 import { BlockDto, CreateAccountDto, LoginDto, UpdateInfoDto } from "../dto/user.dto";
 import Mail from "../utils/mail";
 import MailOptions from "../utils/mailOptions";
-import { templateReader } from "../utils/templateReader";
+import FileHandler from "../utils/fileHandler";
 import JwtToken from "../utils/token";
 import { JwtPayload } from "jsonwebtoken";
 import { IUser } from "../interface";
@@ -15,6 +15,7 @@ class UserController {
     private service = new UserService();
     private mail = new Mail();
     private jwt = new JwtToken();
+    private fileHandler = new FileHandler()
 
     getAllAccount = async (req: Request, res: Response, next: NextFunction) => {
         const data = await this.service.getAllAccount();
@@ -26,7 +27,7 @@ class UserController {
             const { email, username } = data
             if (data === undefined) throw new HttpException(400, "all fields are required")
             const verificationToken = await this.jwt.signJwt(email, "600s");
-            const emailTemplate = await templateReader(`verifyMail.hbs`, { username, link: verificationToken })
+            const emailTemplate = await this.fileHandler.templateReader(`verifyMail.hbs`, { username, link: verificationToken })
             const newAccount = await this.service.createAccount(data);
             if (!newAccount) return res.status(500).send(new HttpResponse("failed", "an error occurred"))
             await this.mail.sendMail(new MailOptions(email, "verify account", emailTemplate))

@@ -53,7 +53,7 @@ class AddTemplateDto {
 
 class DeleteTemplateDto {
     @IsUUID()
-    template!: string
+    filename!: string
 }
 
 export { AddAdminDto, ChangePasswordDto, DeleteAdmin, BlockAdminDto, UnblockAdminDto, AdminLoginDto, AddTemplateDto, DeleteTemplateDto }

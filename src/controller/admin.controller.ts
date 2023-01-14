@@ -3,25 +3,26 @@ import AdminService from "../service/admin.service";
 import { AddAdminDto, AdminLoginDto, BlockAdminDto, ChangePasswordDto } from "../dto/admin.dto";
 import HttpResponse from "../response/HttpResponse";
 import JwtToken from "../utils/token";
-import { templateReader } from "../utils/templateReader";
+import FileHandler from "../utils/fileHandler";
 import MailOptions from "../utils/mailOptions";
 import Mail from "../utils/mail";
 import { JwtPayload } from "jsonwebtoken";
 import { IAdmin } from "../interface";
-import { AddTemplateDto } from "../dto/template.dto";
 import HttpException from "../exceptions/HttpException";
 
 class AdminController {
     private service = new AdminService();
     private jwt = new JwtToken()
     private mail = new Mail();
+    private fileHandler = new FileHandler()
+
     addAdmin = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const data: AddAdminDto = req.body
             const superAdmin: IAdmin & Document = req["admin"]
             const { email, username } = data
             const verificationToken = this.jwt.signJwt(email, "1000s");
-            const emailTemplate = await templateReader(`verifyMail.hbs`, { username, link: verificationToken })
+            const emailTemplate = await this.fileHandler.templateReader(`verifyMail.hbs`, { username, link: verificationToken })
             const newAdmin = await this.service.addAdmin(superAdmin.username, data)
             if (newAdmin) {
                 await this.mail.sendMail(new MailOptions(email, "verify account", emailTemplate))
