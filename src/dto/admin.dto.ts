@@ -1,5 +1,5 @@
 import { Trim } from "class-sanitizer";
-import { IsEmail, IsObject, IsString, MinLength } from "class-validator";
+import { IsEmail, IsObject, IsString, IsUUID, MinLength } from "class-validator";
 import AdminRoles from "../enums/admin.enum";
 
 class AddAdminDto {
@@ -47,8 +47,13 @@ class UnblockAdminDto {
 }
 
 class AddTemplateDto {
-   @IsObject()
-    template!:Express.Multer.File;
+    @IsObject()
+    template!: Express.Multer.File;
 }
 
-export { AddAdminDto, ChangePasswordDto, DeleteAdmin, BlockAdminDto, UnblockAdminDto, AdminLoginDto, AddTemplateDto }
+class DeleteTemplateDto {
+    @IsUUID()
+    template!: string
+}
+
+export { AddAdminDto, ChangePasswordDto, DeleteAdmin, BlockAdminDto, UnblockAdminDto, AdminLoginDto, AddTemplateDto, DeleteTemplateDto }

@@ -17,6 +17,7 @@ interface IAdminService {
     block(admin:BlockAdminDto):Promise<boolean>
     unblock(admin:UnblockAdminDto):Promise<boolean>
     addTemplate(template:ITemplate):Promise<boolean>
+    deleteTemplate(template:ITemplate):Promise<boolean>
 }
 
 export default IAdminService;
