@@ -9,8 +9,8 @@ import HttpException from "../exceptions/HttpException";
 const dtoValidationMiddleware =
     (
         type: any,
-        value: "body" | "query" | "params" = "body",
-        message:ErrorMessage,
+        value: "body" | "query" | "params" | "file" | "files" = "body",
+        message: ErrorMessage,
         skipMissingProperties = false,
         whitelist = true,
         forbidNonWhitelisted = false,
@@ -24,7 +24,7 @@ const dtoValidationMiddleware =
             }).then((errors: ValidationError[]) => {
                 if (errors.length > 0) {
                     logger.error(errors)
-                    next(new HttpException(400,message))
+                    next(new HttpException(400, message))
                 } else {
                     sanitize(dtoObject)
                     req[value] = dtoObject
