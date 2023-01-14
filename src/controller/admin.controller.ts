@@ -8,9 +8,8 @@ import MailOptions from "../utils/mailOptions";
 import Mail from "../utils/mail";
 import { JwtPayload } from "jsonwebtoken";
 import { IAdmin } from "../interface";
-import MulterUpload from "../middleware/multer.middleware";
-import logger from "../utils/logger";
 import { AddTemplateDto } from "../dto/template.dto";
+import HttpException from "../exceptions/HttpException";
 
 class AdminController {
     private service = new AdminService();
@@ -79,11 +78,10 @@ class AdminController {
     }
     addMailTemplate = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            
-            const { filename, path } = req.file as Express.Multer.File
-            const { name } = req.body as AddTemplateDto
+            if (!req.file) throw new HttpException(400, "file is required")
+            const { filename, path, originalname } = req.file as Express.Multer.File
             const { username } = req["admin"] as IAdmin
-            await this.service.addTemplate({ name, filename, path, addedBy: username })
+            await this.service.addTemplate({ name: originalname, filename, path, addedBy: username })
             return res.status(200).send(new HttpResponse("success", "email template added", filename))
         } catch (err) {
             if (err instanceof Error) next(err)

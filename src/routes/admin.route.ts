@@ -50,8 +50,7 @@ class AdminRoute implements IRoute {
             `${this.path}/template`,
             AdminAuth.check,
             AdminAuth.isSub,
-            new MulterUpload().upload("templates",[".hbs",".html"]).single("template"),
-            dtoValidationMiddleware(AddTemplateDto, "body", ErrorMessage.FIELDS),
+            new MulterUpload("templates").upload([".hbs", ".html"]).single("template"),
             this.controller.addMailTemplate
         )
     }
