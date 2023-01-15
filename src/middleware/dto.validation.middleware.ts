@@ -16,9 +16,7 @@ const dtoValidationMiddleware =
         forbidNonWhitelisted = false,
     ): RequestHandler => {
         return (req, res, next) => {
-            logger.info(req[value])
             const dtoObject = plainToInstance(type, req[value])
-            logger.info(dtoObject)
             validate(dtoObject, {
                 skipMissingProperties,
                 whitelist,
