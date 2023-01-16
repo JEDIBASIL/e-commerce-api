@@ -4,10 +4,12 @@ import HttpException from "../exceptions/HttpException";
 import { IAdmin, IAdminService, ITemplate } from "../interface";
 import adminModel from "../models/admin.model";
 import templateModel from "../models/template.model";
+import FileHandler from "../utils/fileHandler";
 
 class AdminService implements IAdminService {
     private modelA = adminModel
     private modelT = templateModel
+    private fileHandler = new FileHandler()
     async addAdmin(superAdmin: string, newAdmin: AddAdminDto): Promise<IAdmin> {
         const { email, username } = newAdmin
         const findByEmail = await this.modelA.findOne({ email })
@@ -61,7 +63,10 @@ class AdminService implements IAdminService {
     async deleteTemplate(template: DeleteTemplateDto): Promise<boolean> {
         const { filename } = template
         const foundTemplate = await this.modelT.findOne({ filename })
-        if(!foundTemplate)  throw new HttpException(404, "template not found")
+        if (!foundTemplate) throw new HttpException(404, "template not found")
+        foundTemplate.delete()
+        await this.fileHandler.deleteFile(foundTemplate.path)
+        return true
     }
 }
 

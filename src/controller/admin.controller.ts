@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import AdminService from "../service/admin.service";
-import { AddAdminDto, AdminLoginDto, BlockAdminDto, ChangePasswordDto } from "../dto/admin.dto";
+import { AddAdminDto, AdminLoginDto, BlockAdminDto, ChangePasswordDto, DeleteTemplateDto } from "../dto/admin.dto";
 import HttpResponse from "../response/HttpResponse";
 import JwtToken from "../utils/token";
 import FileHandler from "../utils/fileHandler";
@@ -84,6 +84,15 @@ class AdminController {
             const { username } = req["admin"] as IAdmin
             await this.service.addTemplate({ name: originalname, filename, path, addedBy: username })
             return res.status(200).send(new HttpResponse("success", "email template added", filename))
+        } catch (err) {
+            if (err instanceof Error) next(err)
+        }
+    }
+    deleteMailTemplate = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const data = req.body as DeleteTemplateDto
+            await this.service.deleteTemplate(data)
+            return res.status(200).send(new HttpResponse("success", "email template deleted"))
         } catch (err) {
             if (err instanceof Error) next(err)
         }

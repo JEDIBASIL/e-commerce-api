@@ -52,7 +52,7 @@ class AddTemplateDto {
 }
 
 class DeleteTemplateDto {
-    @IsUUID()
+    @IsString()
     filename!: string
 }
 
