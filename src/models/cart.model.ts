@@ -10,7 +10,8 @@ const cartSchema = new Schema<ICart>({
     user: {
         type: Schema.Types.ObjectId,
         ref: "User",
-        required: true
+        required: true,
+        select:false,
     },
     qty: {
         type: Number,
