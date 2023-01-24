@@ -1,6 +1,6 @@
 import moment from 'moment';
 import mongoose, { model, Schema, Document } from 'mongoose';
-import {IOrder} from '../interface/';
+import { IOrder } from '../interface/';
 
 const orderSchema = new Schema<IOrder>({
     user: {
@@ -10,10 +10,6 @@ const orderSchema = new Schema<IOrder>({
     },
     orderItems: [
         {
-            name: { type: String, required: true },
-            qty: { type: Number, required: true },
-            img: { type: String, required: true },
-            price: { type: Number, required: true },
             product: {
                 type: mongoose.Schema.Types.ObjectId,
                 required: true,
@@ -75,5 +71,5 @@ const orderSchema = new Schema<IOrder>({
     },
 })
 
-const orderModel = model<Document & IOrder>("Order",orderSchema)
+const orderModel = model<Document & IOrder>("Order", orderSchema)
 export default orderModel

@@ -3,10 +3,6 @@ import { Types } from "mongoose";
 import IPaymentResult from "./paymentResult.model.interface";
 
 interface IOrderItem {
-    name: string;
-    qty: number;
-    img: string;
-    price: number;
     product: Types.ObjectId;
 }
 
