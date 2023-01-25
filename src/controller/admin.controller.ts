@@ -9,6 +9,9 @@ import Mail from "../utils/mail";
 import { JwtPayload } from "jsonwebtoken";
 import { IAdmin } from "../interface";
 import HttpException from "../exceptions/HttpException";
+import cloudinary from "../config/cloudinary";
+import { v4 } from "uuid"
+import logger from "../utils/logger";
 
 class AdminController {
     private service = new AdminService();
@@ -93,6 +96,15 @@ class AdminController {
             const data = req.body as DeleteTemplateDto
             await this.service.deleteTemplate(data)
             return res.status(200).send(new HttpResponse("success", "email template deleted"))
+        } catch (err) {
+            if (err instanceof Error) next(err)
+        }
+    }
+    uploadImg = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const public_id = v4()
+            const ress = await cloudinary.uploader.upload(req.file?.path, { public_id })
+            return res.status(200).send(new HttpResponse("success", "image uploaded", ress.url))
         } catch (err) {
             if (err instanceof Error) next(err)
         }
