@@ -29,6 +29,10 @@ class MulterUpload {
         })
         return upload
     }
+    public static cloudUpload(): Multer {
+        const storage = multer.diskStorage({});
+        return multer({ storage })
+    }
 }
 
 export default MulterUpload;
