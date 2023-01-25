@@ -53,6 +53,13 @@ class AdminRoute implements IRoute {
             new MulterUpload("templates").upload([".hbs", ".html"]).single("template"),
             this.controller.addMailTemplate
         )
+        this.route.post(
+            `${this.path}/image`,
+            AdminAuth.check,
+            AdminAuth.isSub,
+            MulterUpload.cloudUpload().single("photo"),
+            this.controller.uploadImg
+        )
         this.route.delete(
             `${this.path}/template`,
             AdminAuth.check,
